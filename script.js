@@ -1,5 +1,5 @@
 /* ============================================================
-   AL-INZAR — script.js
+   AL-INDZAR — script.js
    Gabungan seluruh blok <script> inline dari index.html asli,
    dengan urutan eksekusi dipertahankan. Dimuat di akhir <body>.
    ============================================================ */
@@ -1480,7 +1480,7 @@
             if (!pesan) { errMsg.textContent = 'Pertanyaan / pesan wajib diisi.'; errEl.style.display='flex'; return; }
             errEl.style.display = 'none';
 
-            var teks = '🌿 *Halo AL-INZAR!*\n\n'
+            var teks = '🌿 *Halo AL-INDZAR!*\n\n'
                 + '👤 *Nama:* ' + nama + '\n'
                 + '📞 *No. Telepon:* ' + telp + '\n'
                 + (topik ? '🏷️ *Topik:* ' + topik + '\n' : '')
@@ -1495,7 +1495,7 @@
 /* ===== Blok JS 3 (asal: baris 5697 index asli) ===== */
     (function() {
         // ================================================================
-        // SUPABASE CONFIG — Komunitas AL-INZAR
+        // SUPABASE CONFIG — Komunitas AL-INDZAR
         // Jalankan SQL ini sekali di Supabase Dashboard > SQL Editor:
         //
         // create table hn_forum_threads (
@@ -1559,7 +1559,7 @@
         // ================================================================
 
         /* ================================================================
-           AL-INZAR — SUPABASE GLOBAL CONFIG (1 titik, dipakai semua)
+           AL-INDZAR — SUPABASE GLOBAL CONFIG (1 titik, dipakai semua)
            Jangan duplikasi URL/KEY di tempat lain!
            ================================================================ */
         window.HN_SB_URL = 'https://ltztvkhgwizeudmkcwyg.supabase.co';
