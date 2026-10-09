@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>AL-INZAR - Platform Psikoedukasi Digital untuk Penguatan Mental Health Remaja</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Supabase JS v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Bar -->
+    <div class="loading-bar"></div>
+
+    <!-- SPLASH SCREEN -->
+    <div id="hfz-splash">
+        <div class="sp-ring"></div><div class="sp-ring"></div><div class="sp-ring"></div>
+        <div class="sp-glow"></div>
+        <div class="sp-inner">
+            <div class="sp-arabic">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+            <div class="sp-logo">AL-<span>INZAR</span></div>
+            <div class="sp-tag">Platform Psikoedukasi Digital Remaja Muslim</div>
+            <div class="sp-bar-wrap">
+                <div class="sp-bar-track"><div class="sp-bar-fill"></div></div>
+            </div>
+            <div class="sp-dots">
+                <div class="sp-dot act" id="spd1"></div>
+                <div class="sp-dot" id="spd2"></div>
+                <div class="sp-dot" id="spd3"></div>
+                <div class="sp-dot" id="spd4"></div>
+            </div>
+            <div class="sp-verse">
+                "Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram."
+                <span class="sp-verse-ref">— QS. Ar-Ra'd: 28</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0d9488"/>
+                                <stop offset="100%" stop-color="#06b6d4"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Background rounded square -->
+                        <rect width="42" height="42" rx="12" fill="url(#lg1)"/>
+                        <!-- Highlight gloss top -->
+                        <rect width="42" height="21" rx="12" fill="rgba(255,255,255,0.08)"/>
+                        <!-- Shield shape -->
+                        <path d="M21 7 L31 11 L31 20 C31 26 26 31 21 34 C16 31 11 26 11 20 L11 11 Z" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                        <!-- Leaf/heart inside shield -->
+                        <path d="M21 27 C21 27 14.5 22 14.5 17.5 C14.5 15 16.5 13 19 13.5 C19.8 13.7 20.5 14.1 21 14.8 C21.5 14.1 22.2 13.7 23 13.5 C25.5 13 27.5 15 27.5 17.5 C27.5 22 21 27 21 27Z" fill="white"/>
+                    </svg>
+                </div>
+                <span>AL-INZAR</span>
+            </a>
+            <ul class="nav-links" style="gap:24px;">
+                <li><a href="#" onclick="navigateTo('beranda'); return false;" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:0.78rem;color:var(--text-dark);text-decoration:none;font-weight:500;transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'"><i class="fas fa-house" style="font-size:1.1rem;"></i>Beranda</a></li>
+                <li><a href="#" onclick="navigateTo('page-tentang'); return false;" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:0.78rem;color:var(--text-dark);text-decoration:none;font-weight:500;transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'"><i class="fas fa-circle-info" style="font-size:1.1rem;"></i>Tentang</a></li>
+                <li><a href="#" onclick="navigateTo('fitur'); return false;" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:0.78rem;color:var(--text-dark);text-decoration:none;font-weight:500;transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'"><i class="fas fa-layer-group" style="font-size:1.1rem;"></i>Fitur</a></li>
+
+                <li><a href="#kontak" onclick="navigateTo('kontak');return false;" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:0.78rem;color:var(--text-dark);text-decoration:none;font-weight:500;transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'"><i class="fas fa-envelope" style="font-size:1.1rem;"></i>Kontak</a></li>
+                <li id="navAuthArea">
+                    <!-- Diisi JS: tombol Masuk+Daftar (guest) atau chip nama+Keluar (logged in) -->
+                    <a href="#" onclick="openAuthModal('login'); return false;" style="display:inline-flex;align-items:center;gap:6px;padding:9px 22px;border-radius:50px;border:2px solid var(--primary);color:var(--primary);font-weight:600;font-size:0.88rem;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(13,148,136,0.07)'" onmouseout="this.style.background='transparent'">Masuk</a>
+                    <a href="#" onclick="openAuthModal('register'); return false;" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:linear-gradient(135deg,#0d9488,#06b6d4);color:white;font-weight:700;font-size:0.88rem;text-decoration:none;box-shadow:0 4px 16px rgba(13,148,136,.30);transition:all 0.3s;margin-left:8px;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(13,148,136,.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(13,148,136,.30)'"><i class="fas fa-rocket" style="font-size:0.85rem;"></i> Daftar</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+        <span class="mnav-label">Menu</span>
+        <a href="#" onclick="navigateTo('beranda'); closeMobileNav();"><i class="fas fa-house" style="width:18px;color:var(--primary);margin-right:8px;"></i>Beranda</a>
+        <a href="#" onclick="navigateTo('page-tentang'); closeMobileNav();"><i class="fas fa-circle-info" style="width:18px;color:var(--primary);margin-right:8px;"></i>Tentang</a>
+
+        <a href="#" onclick="navigateTo('kontak'); closeMobileNav();"><i class="fas fa-envelope" style="width:18px;color:var(--primary);margin-right:8px;"></i>Kontak</a>
+        <span class="mnav-label">Fitur</span>
+        <a href="#" onclick="navigateTo('fitur'); closeMobileNav(); return false;" style="display:flex;align-items:center;justify-content:space-between;color:var(--primary);font-weight:600;">
+            <span><i class="fas fa-layer-group" style="width:18px;margin-right:8px;"></i>Semua Fitur</span>
+            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+        </a>
+        <span class="mnav-label">Akun</span>
+        <a href="#" onclick="openAuthModal('register'); closeMobileNav(); return false;" style="color:var(--primary);font-weight:600;"><i class="fas fa-user-plus" style="width:18px;margin-right:8px;"></i>Daftar / Masuk</a>
+    </div>
+    <!-- Mobile Fitur Bottom Sheet -->
+    <div id="mobileFiturOverlay" onclick="closeMobileFiturSheet()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1100;backdrop-filter:blur(4px);opacity:0;transition:opacity 0.3s ease;"></div>
+    <div id="mobileFiturSheet" style="display:none;position:fixed;bottom:0;left:0;width:100%;z-index:1101;background:white;border-radius:24px 24px 0 0;padding:0 0 env(safe-area-inset-bottom,16px);box-shadow:0 -8px 40px rgba(13,148,136,0.18);transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);">
+        <!-- Handle bar -->
+        <div style="display:flex;justify-content:center;padding:12px 0 0;">
+            <div style="width:40px;height:4px;background:#e2e8f0;border-radius:4px;"></div>
+        </div>
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+            <div>
+                <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light);margin-bottom:2px;">AL-INZAR</div>
+                <div style="font-size:1rem;font-weight:800;color:var(--text-dark);">Pilih Fitur</div>
+            </div>
+            <button onclick="closeMobileFiturSheet()" style="width:32px;height:32px;border-radius:50%;border:none;background:#f1f5f9;color:var(--text-gray);font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <!-- Feature grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 16px 20px;">
+            <button onclick="closeMobileFiturSheet();navigateTo('fitur-b');" class="mfs-btn" style="background:linear-gradient(135deg,rgba(13,148,136,0.07),rgba(6,182,212,0.07));border:1.5px solid rgba(13,148,136,0.15);border-radius:16px;padding:16px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:'Poppins',sans-serif;text-align:left;transition:all 0.2s ease;">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0d9488,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-clipboard-check" style="color:white;font-size:0.9rem;"></i>
+                </div>
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-dark);line-height:1.3;">INZ<br>Check</span>
+            </button>
+            <button onclick="closeMobileFiturSheet();navigateTo('fitur-alert');" class="mfs-btn" style="background:linear-gradient(135deg,rgba(239,68,68,0.07),rgba(249,115,22,0.07));border:1.5px solid rgba(239,68,68,0.15);border-radius:16px;padding:16px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:'Poppins',sans-serif;text-align:left;transition:all 0.2s ease;">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#f97316);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-bell" style="color:white;font-size:0.9rem;"></i>
+                </div>
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-dark);line-height:1.3;">INZ<br>Alert</span>
+            </button>
+            <button onclick="closeMobileFiturSheet();navigateTo('fitur-d');" class="mfs-btn" style="background:linear-gradient(135deg,rgba(245,158,11,0.07),rgba(249,115,22,0.07));border:1.5px solid rgba(245,158,11,0.15);border-radius:16px;padding:16px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:'Poppins',sans-serif;text-align:left;transition:all 0.2s ease;">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-book-open" style="color:white;font-size:0.9rem;"></i>
+                </div>
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-dark);line-height:1.3;">INZ<br>Edu</span>
+            </button>
+            <button onclick="closeMobileFiturSheet();navigateTo('fitur-ruh');" class="mfs-btn" style="background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(99,102,241,0.07));border:1.5px solid rgba(139,92,246,0.15);border-radius:16px;padding:16px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:'Poppins',sans-serif;text-align:left;transition:all 0.2s ease;">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#6366f1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-moon" style="color:white;font-size:0.9rem;"></i>
+                </div>
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-dark);line-height:1.3;">INZ<br>Ruh</span>
+            </button>
+            <!-- INZ Support spans full width as 5th item -->
+            <button onclick="closeMobileFiturSheet();navigateTo('fitur-a');" class="mfs-btn" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(236,72,153,0.07),rgba(244,63,94,0.07));border:1.5px solid rgba(236,72,153,0.15);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:'Poppins',sans-serif;text-align:left;transition:all 0.2s ease;">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ec4899,#f43f5e);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-shield-heart" style="color:white;font-size:0.9rem;"></i>
+                </div>
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-dark);">INZ Support</span>
+                <i class="fas fa-chevron-right" style="margin-left:auto;font-size:0.7rem;color:var(--text-light);"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="page-beranda" class="page active">
+
+    <!-- Hero Section -->
+    <section class="hero" id="beranda">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>AL-INZAR</h1>
+                <p class="subtitle">Platform Psikoedukasi Digital untuk Penguatan Mental Health dan Early Warning System Remaja Berbasis Q.S. Az-Zumar: 53 & Ar-Ra'd: 28</p>
+                <div class="hero-buttons">
+                    <a href="#gabung" class="btn-primary ripple" onclick="showModal(event)">
+                        <i class="fas fa-shield-heart"></i> Kenali Kondisimu
+                    </a>
+                    <a href="#fitur" class="btn-secondary ripple">
+                        <i class="fas fa-play"></i> Mulai Sekarang
+                    </a>
+                </div>
+                <div style="margin-top:14px;">
+                    <a href="https://www.halodoc.com/kesehatan-mental?srsltid=AfmBOor80vVBvrlL-Laed2XumgJdc7Z1o5AvYNcdvTzzba6uE_9Nhe2f" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;padding:13px 28px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.92rem;box-shadow:0 4px 18px rgba(124,58,237,0.28);transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(124,58,237,0.45)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 18px rgba(124,58,237,0.28)'">
+                        <i class="fas fa-user-md"></i> Konsultasi Psikolog
+                        <span style="background:rgba(255,255,255,0.2);font-size:0.7rem;padding:2px 8px;border-radius:50px;font-weight:700;">Halodoc</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-illustration">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&crop=faces" alt="Komunitas Remaja Digital" class="main-img">
+                    <div class="floating-card">
+                        <div class="fc-icon" style="background: linear-gradient(135deg, #0d9488, #06b6d4);">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <div class="fc-text">INZ Check</div>
+                            <div class="fc-sub">Cek kondisimu hari ini</div>
+                        </div>
+                    </div>
+                    <div class="floating-card">
+                        <div class="fc-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <div class="fc-text">INZ Alert</div>
+                            <div class="fc-sub">Semua terpantau</div>
+                        </div>
+                    </div>
+                    <div class="floating-card">
+                        <div class="fc-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                            <i class="fas fa-book-open-reader"></i>
+                        </div>
+                        <div>
+                            <div class="fc-text">INZ Ruh</div>
+                            <div class="fc-sub">Refleksi hari ini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keunggulan Section (replacing features grid) -->
+    <section id="fitur" style="padding:90px 30px;background:#ffffff;">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-badge" style="font-size:0.9rem;font-weight:700;color:var(--primary);background:rgba(13,148,136,0.08);padding:8px 22px;border-radius:50px;letter-spacing:0.04em;">Keunggulan</span>
+                <h2 style="margin-top:12px;">Mengapa AL-INZAR?</h2>
+                <p>Platform yang dirancang khusus untuk remaja muslim — menggabungkan ilmu psikologi modern dengan fondasi spiritual Islam.</p>
+            </div>
+
+            <!-- 3 Keunggulan Cards -->
+            <div class="reveal keunggulan-grid" style="margin-top:52px;">
+
+                <!-- Keunggulan 1 -->
+                <div style="background:white;border-radius:24px;padding:36px 32px;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.07);transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(13,148,136,.14)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(13,148,136,.08)'">
+                    <div style="position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#0d9488,#06b6d4);"></div>
+                    <!-- Logo / icon -->
+                    <div style="width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(13,148,136,.28);">
+                        <i class="fas fa-brain" style="font-size:1.9rem;color:white;"></i>
+                    </div>
+                    <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:20px;line-height:1.3;">Deteksi Dini<br>Terstruktur</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;text-align:left;">
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Skrining stres, kecemasan & depresi</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Alert otomatis sebelum kondisi memburuk</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Riwayat & tren kondisi psikologis</div>
+                    </div>
+                </div>
+
+                <!-- Keunggulan 2 (center, menonjol dengan border teal) -->
+                <div class="keunggulan-center" style="background:white;border-radius:24px;padding:36px 32px;text-align:center;position:relative;overflow:hidden;box-shadow:0 8px 36px rgba(13,148,136,.18);border:2px solid #0d9488;transform:scale(1.04);transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='scale(1.04) translateY(-6px)';this.style.boxShadow='0 20px 56px rgba(13,148,136,.28)'" onmouseout="this.style.transform='scale(1.04)';this.style.boxShadow='0 8px 36px rgba(13,148,136,.18)'">
+                    <div style="position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#0d9488,#5eead4);"></div>
+                    <!-- Badge "Unggulan" -->
+                    <div style="position:absolute;top:18px;right:18px;background:linear-gradient(135deg,#0d9488,#06b6d4);color:white;font-size:0.62rem;font-weight:800;padding:4px 12px;border-radius:50px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:4px;"><i class="fas fa-star" style="font-size:0.55rem;"></i> Unggulan</div>
+                    <!-- Logo -->
+                    <div style="width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(13,148,136,.30);">
+                        <i class="fas fa-moon" style="font-size:1.9rem;color:white;"></i>
+                    </div>
+                    <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:20px;line-height:1.3;">Pendekatan<br>Holistik Islami</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;text-align:left;">
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Ayat refleksi & dzikir harian</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Islamic affirmation & jurnal syukur</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Konten spiritual yang dikurasi</div>
+                    </div>
+                </div>
+
+                <!-- Keunggulan 3 -->
+                <div style="background:white;border-radius:24px;padding:36px 32px;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.07);transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(13,148,136,.14)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(13,148,136,.08)'">
+                    <div style="position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#0d9488,#06b6d4);"></div>
+                    <!-- Logo -->
+                    <div style="width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(13,148,136,.28);">
+                        <i class="fas fa-shield-heart" style="font-size:1.7rem;color:white;"></i>
+                    </div>
+                    <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:20px;line-height:1.3;">Jalur Dukungan<br>Nyata</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;text-align:left;">
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Forum dukungan sebaya yang aman</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Koneksi psikolog & konselor</div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;font-weight:500;color:#374151;"><span style="width:20px;height:20px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:#fff;font-size:0.55rem;"></i></span>Hotline & jalur bantuan segera</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CTA ke halaman fitur -->
+            <div class="reveal" style="text-align:center;margin-top:52px;">
+                <button onclick="navigateTo('fitur')" style="background:linear-gradient(135deg,#0d9488,#06b6d4);color:white;border:none;padding:16px 40px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(13,148,136,.35);transition:all .3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 6px 24px rgba(13,148,136,.35)'">
+                    <i class="fas fa-th-large"></i>
+                    Jelajahi Semua Fitur
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <p style="margin-top:14px;font-size:0.82rem;color:#94a3b8;">5 fitur lengkap · INZ Check · Alert · Edu · Ruh · Support</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Responsive fixes for mobile -->
+<!-- Stats Section -->
+    <!-- Ayat Al-Qur'an Section -->
+    <section id="statistik" style="padding:64px 30px 72px;background:#f8fafb;">
+        <div style="display:flex;align-items:center;gap:16px;max-width:1200px;margin:0 auto 40px;">
+            <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,#e5e7eb);"></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;">
+                <i class="fas fa-star" style="font-size:10px;color:#d1d5db;"></i>
+                Firman Allah
+                <i class="fas fa-star" style="font-size:10px;color:#d1d5db;"></i>
+            </div>
+            <div style="flex:1;height:1px;background:linear-gradient(90deg,#e5e7eb,transparent);"></div>
+        </div>
+        <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+            <!-- Az-Zumar 53 -->
+            <div class="reveal" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f0f0f0;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:transform 0.25s ease,box-shadow 0.25s ease;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 28px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,0.04)'">
+                <div style="height:4px;background:linear-gradient(90deg,#0d9488,#06b6d4);"></div>
+                <div style="padding:26px 26px 22px;">
+                    <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;">
+                        <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#0d9488,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:white;">53</div>
+                        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;">QS. Az-Zumar : 53</span>
+                    </div>
+                    <p style="font-family:'Scheherazade New','Traditional Arabic',serif;font-size:24px;line-height:2.1;color:#111827;text-align:right;direction:rtl;margin-bottom:16px;">قُلْ يَٰعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ</p>
+                    <hr style="border:none;border-top:1px dashed #e5e7eb;margin-bottom:14px;">
+                    <p style="font-size:11px;color:#9ca3af;font-style:italic;line-height:1.7;margin-bottom:10px;">Qul yā 'ibādiyalladhīna asrafū 'alā anfusihim lā taqnaṭū min raḥmatillāhi, innallāha yaghfirudh-dhunūba jamī'ā, innahū huwal-ghafūrur-raḥīm</p>
+                    <p style="font-size:13px;color:#4b5563;line-height:1.75;font-weight:500;"><span style="color:#0d9488;font-weight:700;">"</span>Katakanlah, wahai hamba-hamba-Ku yang melampaui batas terhadap diri mereka sendiri, janganlah kamu berputus asa dari rahmat Allah. Sesungguhnya Allah mengampuni dosa-dosa semuanya. Sungguh, Dialah Yang Maha Pengampun, Maha Penyayang.<span style="color:#0d9488;font-weight:700;">"</span></p>
+                </div>
+            </div>
+            <!-- Ar-Ra'd 28 -->
+            <div class="reveal" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f0f0f0;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:transform 0.25s ease,box-shadow 0.25s ease;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 28px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,0.04)'">
+                <div style="height:4px;background:linear-gradient(90deg,#7c3aed,#8b5cf6);"></div>
+                <div style="padding:26px 26px 22px;">
+                    <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;">
+                        <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:white;">28</div>
+                        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;">QS. Ar-Ra'd : 28</span>
+                    </div>
+                    <p style="font-family:'Scheherazade New','Traditional Arabic',serif;font-size:30px;line-height:2.1;color:#111827;text-align:right;direction:rtl;margin-bottom:16px;padding:12px 0;">أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ</p>
+                    <hr style="border:none;border-top:1px dashed #e5e7eb;margin-bottom:14px;">
+                    <p style="font-size:11px;color:#9ca3af;font-style:italic;line-height:1.7;margin-bottom:10px;">Alā bidhikrillāhi taṭma'innu al-qulūb</p>
+                    <p style="font-size:13px;color:#4b5563;line-height:1.75;font-weight:500;"><span style="color:#7c3aed;font-weight:700;">"</span>Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.<span style="color:#7c3aed;font-weight:700;">"</span></p>
+                    <p style="font-size:11.5px;color:#9ca3af;font-style:italic;margin-top:12px;line-height:1.65;">Ayat ini menjadi fondasi spiritual AL-INZAR — bahwa ketenangan jiwa yang hakiki berpijak pada iman yang kuat, bukan semata teknik.</p>
+                </div>
+            </div>
+        </div>
+        <p style="text-align:center;font-size:11px;color:#d1d5db;margin-top:24px;max-width:1200px;margin-left:auto;margin-right:auto;">Terjemahan berdasarkan Al-Qur'an Kementerian Agama Republik Indonesia</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="gabung">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0d9488"/>
+                                        <stop offset="100%" stop-color="#06b6d4"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect width="42" height="42" rx="12" fill="url(#lg2)"/>
+                                <rect width="42" height="21" rx="12" fill="rgba(255,255,255,0.08)"/>
+                                <path d="M21 7 L31 11 L31 20 C31 26 26 31 21 34 C16 31 11 26 11 20 L11 11 Z" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                                <path d="M21 27 C21 27 14.5 22 14.5 17.5 C14.5 15 16.5 13 19 13.5 C19.8 13.7 20.5 14.1 21 14.8 C21.5 14.1 22.2 13.7 23 13.5 C25.5 13 27.5 15 27.5 17.5 C27.5 22 21 27 21 27Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <span>AL-INZAR</span>
+                    </a>
+                    <p>Platform psikoedukasi digital untuk penguatan mental health remaja berbasis Q.S. Az-Zumar: 53 & Ar-Ra'd: 28. Kenali dirimu, jaga kondisimu.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="#" onclick="navigateTo('beranda'); return false;">Beranda</a></li>
+                        <li><a href="#" onclick="navigateTo('page-tentang'); return false;">Tentang</a></li>
+                        <li><a href="#" onclick="navigateTo('fitur'); return false;">Fitur <i class="fas fa-arrow-up-right-from-square" style="font-size:0.6rem;opacity:0.5;"></i></a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Fitur</h4>
+                    <ul>
+                        <li><a href="#" onclick="navigateTo('fitur-b');return false;">INZ Check & Journal</a></li>
+                        <li><a href="#" onclick="navigateTo('fitur-alert');return false;">INZ Alert</a></li>
+                        <li><a href="#" onclick="navigateTo('fitur-d');return false;">INZ Edu & Coping</a></li>
+                        <li><a href="#" onclick="navigateTo('fitur-ruh');return false;">INZ Ruh & Hope</a></li>
+                        <li><a href="#" onclick="navigateTo('fitur-a');return false;">INZ Support & Safe</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li><a href="mailto:hello@sakina.id"><i class="fas fa-envelope" style="margin-right:8px;"></i>azka.mubrok@gmail.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone" style="margin-right:8px;"></i>+62 857 1201 6662</a></li>
+                        <li><a href="#"><i class="fas fa-location-dot" style="margin-right:8px;"></i>Rembang, Indonesia</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links footer-legal-links">
+                    <h4>Informasi</h4>
+                    <ul>
+                        <li><a href="#" onclick="navigateTo('terms'); return false;"><i class="fas fa-file-contract" style="margin-right:8px;"></i>Syarat & Ketentuan</a></li>
+                        <li><a href="#" onclick="navigateTo('privacy'); return false;"><i class="fas fa-shield-halved" style="margin-right:8px;"></i>Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AL-INZAR. All rights reserved.</p>
+                <p>Dibuat dengan <i class="fas fa-heart" style="color: var(--primary-light);"></i> untuk generasi yang lebih sehat jiwanya</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal">
+            <i class="fas fa-circle-check"></i>
+            <h3>Selamat Bergabung!</h3>
+            <p>Terima kasih telah bergabung dengan AL-INZAR. Langkah pertamamu untuk mengenal dan menjaga kondisi psikologismu dimulai dari sini.</p>
+            <button class="modal-close" onclick="closeModalBtn()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- ===== AUTH MODAL (Login / Register) ===== -->
+    <div id="authModal" onclick="authModalBackdropClose(event)">
+        <div class="auth-box">
+            <!-- Header -->
+            <div class="auth-header">
+                <button class="auth-close-btn" onclick="closeAuthModal()" title="Tutup">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="auth-header-logo"><i class="fas fa-shield-heart"></i></div>
+                <h2>AL-INZAR</h2>
+                <p>Jaga kesehatan mentalmu bersama kami</p>
+            </div>
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">
+                    <i class="fas fa-right-to-bracket" style="margin-right:6px;"></i>Masuk
+                </button>
+                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">
+                    <i class="fas fa-user-plus" style="margin-right:6px;"></i>Daftar
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="auth-body">
+                <!-- Error banner (shared) -->
+                <div class="auth-error-msg" id="authErrorMsg"></div>
+
+                <!-- LOGIN PANEL -->
+                <div class="auth-form-panel active" id="panelLogin">
+                    <div class="auth-field">
+                        <label for="loginEmail"><i class="fas fa-envelope" style="margin-right:5px;color:#0d9488;"></i>Email</label>
+                        <input type="email" id="loginEmail" placeholder="emailkamu@contoh.com" autocomplete="email">
+                    </div>
+                    <div class="auth-field">
+                        <label for="loginPass"><i class="fas fa-lock" style="margin-right:5px;color:#0d9488;"></i>Password</label>
+                        <input type="password" id="loginPass" placeholder="Password kamu" autocomplete="current-password">
+                    </div>
+                    <button class="auth-submit-btn" id="loginBtn" onclick="doLogin()">
+                        <i class="fas fa-right-to-bracket"></i> Masuk
+                    </button>
+                    <p class="auth-switch-text">
+                        Belum punya akun? <a onclick="switchAuthTab('register')">Daftar sekarang</a>
+                    </p>
+                </div>
+
+                <!-- REGISTER PANEL -->
+                <div class="auth-form-panel" id="panelRegister">
+                    <div class="auth-field">
+                        <label for="regNama"><i class="fas fa-user" style="margin-right:5px;color:#0d9488;"></i>Nama Panggilan</label>
+                        <input type="text" id="regNama" placeholder="Panggil kamu apa?" autocomplete="name" maxlength="40">
+                    </div>
+                    <div class="auth-field">
+                        <label for="regEmail"><i class="fas fa-envelope" style="margin-right:5px;color:#0d9488;"></i>Email</label>
+                        <input type="email" id="regEmail" placeholder="emailkamu@contoh.com" autocomplete="email">
+                    </div>
+                    <div class="auth-field">
+                        <label for="regPass"><i class="fas fa-lock" style="margin-right:5px;color:#0d9488;"></i>Password <span style="color:#94a3b8;font-weight:400;">(min. 8 karakter)</span></label>
+                        <input type="password" id="regPass" placeholder="Buat password (min. 8 karakter)" autocomplete="new-password" minlength="8">
+                    </div>
+                    <button class="auth-submit-btn" id="registerBtn" onclick="doRegister()">
+                        <i class="fas fa-user-plus"></i> Buat Akun
+                    </button>
+                    <p class="auth-switch-text">
+                        Sudah punya akun? <a onclick="switchAuthTab('login')">Masuk di sini</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== END AUTH MODAL ===== -->
+
+
+    </div>
+
+    <!-- ============================================================
+         PAGE TERMS & CONDITIONS
+    ============================================================ -->
+    <div id="page-terms" class="page">
+        <div class="legal-page">
+            <div class="legal-hero">
+                <div class="legal-hero-icon"><i class="fas fa-file-contract"></i></div>
+                <h1>Syarat & Ketentuan</h1>
+                <p>Ketentuan penggunaan AL-INZAR agar setiap pengguna dapat menggunakan platform dengan aman, nyaman, dan bertanggung jawab.</p>
+            </div>
+            <div class="legal-wrap">
+                <div class="legal-card">
+                    <div class="legal-updated"><i class="fas fa-calendar-days"></i> Berlaku sejak 20 Agustus 2026</div>
+
+                    <h2><i class="fas fa-circle-info"></i> 1. Tentang AL-INZAR</h2>
+                    <p>AL-INZAR merupakan platform psikoedukasi digital yang menyediakan materi, refleksi, pemantauan kondisi diri, edukasi, latihan coping, serta ruang dukungan untuk membantu remaja mengenali dan menjaga kondisi psikologisnya.</p>
+
+                    <h2><i class="fas fa-user-check"></i> 2. Penggunaan Platform</h2>
+                    <p>Dengan mengakses atau menggunakan AL-INZAR, kamu setuju untuk menggunakan seluruh fitur secara wajar, bertanggung jawab, dan tidak merugikan pengguna lain.</p>
+                    <ul>
+                        <li>Memberikan informasi akun yang benar dan tidak menggunakan identitas orang lain.</li>
+                        <li>Menjaga kerahasiaan informasi akun dan akses masuk milikmu.</li>
+                        <li>Tidak menggunakan platform untuk menyebarkan konten yang melanggar hukum, mengancam, melecehkan, atau membahayakan orang lain.</li>
+                        <li>Tidak mencoba mengganggu, merusak, mengeksploitasi, atau mengakses bagian sistem yang tidak diperuntukkan bagi pengguna.</li>
+                    </ul>
+
+                    <h2><i class="fas fa-heart-pulse"></i> 3. Fitur Kesehatan Mental</h2>
+                    <p>AL-INZAR ditujukan untuk psikoedukasi, refleksi, dan pengenalan kondisi diri. Hasil check-in, skrining, jurnal, grafik, maupun fitur INZ Alert bukan diagnosis psikologis dan tidak menggantikan pemeriksaan atau penanganan oleh psikolog, psikiater, konselor, atau tenaga profesional lainnya.</p>
+
+                    <h2><i class="fas fa-comments"></i> 4. Konten Komunitas</h2>
+                    <p>Jika kamu menggunakan fitur komunitas, cerita anonim, atau ruang kolaborasi, kamu bertanggung jawab atas konten yang kamu kirimkan. Jangan membagikan informasi pribadi yang sensitif atau informasi orang lain tanpa izin.</p>
+
+                    <h2><i class="fas fa-copyright"></i> 5. Hak Kekayaan Intelektual</h2>
+                    <p>Nama, identitas visual, desain, materi, teks, ilustrasi, dan komponen AL-INZAR merupakan bagian dari platform dan tidak boleh disalin, dimodifikasi, atau digunakan kembali untuk kepentingan komersial tanpa izin yang sesuai.</p>
+
+                    <h2><i class="fas fa-ban"></i> 6. Pembatasan dan Penghentian Akses</h2>
+                    <p>Akses terhadap fitur tertentu dapat dibatasi atau dihentikan apabila ditemukan penggunaan yang melanggar ketentuan ini, mengganggu keamanan platform, atau merugikan pengguna lain.</p>
+
+                    <h2><i class="fas fa-arrows-rotate"></i> 7. Perubahan Ketentuan</h2>
+                    <p>Ketentuan ini dapat diperbarui sewaktu-waktu untuk menyesuaikan perkembangan fitur, keamanan, atau kebutuhan platform. Versi terbaru akan ditampilkan pada halaman ini.</p>
+
+                    <div class="legal-note">
+                        <i class="fas fa-shield-heart"></i>
+                        <p><strong style="color:var(--text-dark);">Catatan penting:</strong> Jika kamu sedang mengalami kondisi yang membutuhkan bantuan segera, jangan hanya mengandalkan fitur digital AL-INZAR. Cari bantuan dari orang yang kamu percaya atau tenaga profesional yang sesuai.</p>
+                    </div>
+
+                    <a href="#" class="legal-back" onclick="navigateTo('beranda'); return false;"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         PAGE PRIVACY POLICY
+    ============================================================ -->
+    <div id="page-privacy" class="page">
+        <div class="legal-page">
+            <div class="legal-hero">
+                <div class="legal-hero-icon"><i class="fas fa-shield-halved"></i></div>
+                <h1>Kebijakan Privasi</h1>
+                <p>Penjelasan mengenai jenis data yang dapat diproses AL-INZAR, tujuan penggunaannya, serta langkah yang dapat kamu lakukan untuk menjaga privasimu.</p>
+            </div>
+            <div class="legal-wrap">
+                <div class="legal-card">
+                    <div class="legal-updated"><i class="fas fa-calendar-days"></i> Berlaku sejak 20 Agustus 2026</div>
+
+                    <h2><i class="fas fa-database"></i> 1. Data yang Dapat Diproses</h2>
+                    <p>Sesuai fitur yang tersedia di AL-INZAR, data yang dapat diproses dapat mencakup:</p>
+                    <ul>
+                        <li>Data akun seperti alamat email dan informasi profil yang kamu berikan saat menggunakan akun.</li>
+                        <li>Data aktivitas kesehatan mental yang kamu masukkan melalui fitur check-in, skrining, refleksi, atau pemantauan yang tersedia.</li>
+                        <li>Data jurnal atau konten yang kamu buat melalui fitur yang memang menyimpan data tersebut.</li>
+                        <li>Konten yang kamu kirimkan pada fitur komunitas, termasuk cerita, diskusi, atau pesan yang tersedia pada platform.</li>
+                        <li>Data teknis yang diperlukan agar fungsi antarmuka dan penyimpanan lokal tertentu dapat berjalan.</li>
+                    </ul>
+
+                    <h2><i class="fas fa-bullseye"></i> 2. Tujuan Penggunaan Data</h2>
+                    <p>Data digunakan untuk menyediakan, menjalankan, menampilkan, dan meningkatkan fitur AL-INZAR sesuai fungsi yang tersedia, termasuk membantu menampilkan riwayat, ringkasan, pemantauan, serta pengalaman penggunaan akun.</p>
+
+                    <h2><i class="fas fa-server"></i> 3. Penyimpanan Data</h2>
+                    <p>AL-INZAR menggunakan layanan Supabase sebagai bagian dari infrastruktur backend untuk autentikasi dan penyimpanan data fitur tertentu. Data hanya diproses sejauh diperlukan oleh fungsi platform yang tersedia.</p>
+
+                    <h2><i class="fas fa-user-shield"></i> 4. Kerahasiaan dan Keamanan</h2>
+                    <p>Kami berupaya menjaga data pengguna dengan langkah teknis yang sesuai dengan kemampuan platform. Namun, tidak ada sistem digital yang dapat menjamin keamanan secara mutlak. Karena itu, jangan masukkan kata sandi, kode keamanan, atau informasi sangat sensitif yang tidak diperlukan ke dalam fitur AL-INZAR.</p>
+
+                    <h2><i class="fas fa-users"></i> 5. Data pada Fitur Komunitas</h2>
+                    <p>Konten yang kamu kirimkan pada ruang komunitas dapat diproses agar dapat ditampilkan kepada pengguna lain sesuai fungsi fitur tersebut. Meskipun tersedia fitur cerita anonim, kamu tetap perlu menghindari memasukkan nama lengkap, alamat, nomor telepon, atau informasi lain yang dapat mengidentifikasi dirimu maupun orang lain.</p>
+
+                    <h2><i class="fas fa-cookie-bite"></i> 6. Penyimpanan Lokal</h2>
+                    <p>Beberapa preferensi atau status penggunaan tertentu dapat disimpan pada penyimpanan lokal perangkat untuk menjaga fungsi antarmuka. Data yang tersimpan secara lokal berada pada perangkat dan dapat dipengaruhi oleh pengaturan atau tindakan pengguna terhadap browser.</p>
+
+                    <h2><i class="fas fa-user-gear"></i> 7. Hak Pengguna</h2>
+                    <p>Kamu dapat meminta informasi mengenai data yang berkaitan dengan penggunaan akunmu dan menghubungi pengelola platform apabila memiliki pertanyaan, permintaan, atau kekhawatiran mengenai privasi.</p>
+
+                    <h2><i class="fas fa-arrows-rotate"></i> 8. Perubahan Kebijakan</h2>
+                    <p>Kebijakan ini dapat diperbarui apabila terdapat perubahan fitur, mekanisme pemrosesan data, atau kebutuhan keamanan. Perubahan akan ditampilkan pada halaman ini beserta tanggal berlakunya.</p>
+
+                    <div class="legal-note">
+                        <i class="fas fa-circle-info"></i>
+                        <p><strong style="color:var(--text-dark);">Penting:</strong> AL-INZAR tidak meminta kamu memasukkan informasi yang tidak diperlukan untuk penggunaan fitur. Tetap jaga kerahasiaan akun dan hindari membagikan data pribadi sensitif di ruang komunitas.</p>
+                    </div>
+
+                    <a href="#" class="legal-back" onclick="navigateTo('beranda'); return false;"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         PAGE KONTAK — halaman terpisah, akses via navbar
+    ============================================================ -->
+    <div id="page-kontak" class="page">
+        <!-- Back bar -->
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('beranda')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="page-back-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.65rem;color:var(--text-light);"></i>
+                <span style="color:var(--primary);font-weight:600;">Kontak</span>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <section id="kontak-form" style="padding:80px 30px;background:linear-gradient(170deg,#f0fdfa 0%,#ffffff 100%);min-height:calc(100vh - 60px);">
+            <div style="max-width:700px;margin:0 auto;">
+                <div class="section-header" style="margin-bottom:40px;">
+                    <span class="section-badge"><i class="fas fa-envelope" style="margin-right:6px;"></i>Hubungi Kami</span>
+                    <h2 style="font-size:2rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;">Ada Pertanyaan?</h2>
+                    <p style="font-size:1rem;color:var(--text-gray);line-height:1.8;">Kami siap membantu. Isi formulir di bawah dan kami akan menghubungimu melalui WhatsApp.</p>
+                </div>
+                <div style="background:white;border-radius:24px;padding:40px;box-shadow:0 8px 40px rgba(13,148,136,0.12);border:1px solid rgba(13,148,136,0.1);">
+                    <div style="display:flex;flex-direction:column;gap:20px;">
+                        <!-- Nama -->
+                        <div>
+                            <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;"><i class="fas fa-user" style="color:var(--primary);margin-right:6px;"></i>Nama Lengkap</label>
+                            <input type="text" id="kontak-nama" placeholder="Masukkan nama lengkap kamu..." style="width:100%;padding:14px 18px;border:2px solid #e2e8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.9rem;color:var(--text-dark);outline:none;transition:border-color 0.3s,box-shadow 0.3s;background:#fafafa;"
+                                onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.1)';this.style.background='white';"
+                                onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none';this.style.background='#fafafa';">
+                        </div>
+                        <!-- Nomor Telepon -->
+                        <div>
+                            <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;"><i class="fas fa-phone" style="color:var(--primary);margin-right:6px;"></i>Nomor Telepon / WhatsApp</label>
+                            <input type="tel" id="kontak-telp" placeholder="Contoh: 081234567890" style="width:100%;padding:14px 18px;border:2px solid #e2e8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.9rem;color:var(--text-dark);outline:none;transition:border-color 0.3s,box-shadow 0.3s;background:#fafafa;"
+                                onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.1)';this.style.background='white';"
+                                onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none';this.style.background='#fafafa';">
+                        </div>
+                        <!-- Topik -->
+                        <div>
+                            <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;"><i class="fas fa-tag" style="color:var(--primary);margin-right:6px;"></i>Topik</label>
+                            <select id="kontak-topik" style="width:100%;padding:14px 18px;border:2px solid #e2e8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.9rem;color:var(--text-dark);outline:none;transition:border-color 0.3s,box-shadow 0.3s;background:#fafafa;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path fill=%22%230d9488%22 d=%22M6 8L1 3h10z%22/></svg>');background-repeat:no-repeat;background-position:right 16px center;"
+                                onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.1)';this.style.background='white url(data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path fill=%22%230d9488%22 d=%22M6 8L1 3h10z%22/></svg>) no-repeat right 16px center';"
+                                onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none';">
+                                <option value="">-- Pilih topik --</option>
+                                <option value="Informasi Platform">Informasi Platform</option>
+                                <option value="Kolaborasi / Kemitraan">Kolaborasi / Kemitraan</option>
+                                <option value="Bantuan Teknis">Bantuan Teknis</option>
+                                <option value="Konsultasi Mental Health">Konsultasi Mental Health</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <!-- Pertanyaan -->
+                        <div>
+                            <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;"><i class="fas fa-comment-dots" style="color:var(--primary);margin-right:6px;"></i>Pertanyaan / Pesan</label>
+                            <textarea id="kontak-pesan" rows="5" placeholder="Tuliskan pertanyaan atau pesanmu di sini..." style="width:100%;padding:14px 18px;border:2px solid #e2e8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.9rem;color:var(--text-dark);outline:none;transition:border-color 0.3s,box-shadow 0.3s;background:#fafafa;resize:vertical;line-height:1.7;"
+                                onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.1)';this.style.background='white';"
+                                onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none';this.style.background='#fafafa';"></textarea>
+                        </div>
+                        <!-- Error message -->
+                        <div id="kontak-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px 16px;font-size:0.82rem;color:#dc2626;"><i class="fas fa-circle-exclamation" style="margin-right:6px;"></i><span id="kontak-error-msg"></span></div>
+                        <!-- Submit button -->
+                        <button onclick="kirimKontak()" style="width:100%;padding:16px;background:linear-gradient(135deg,#0d9488,#06b6d4);color:white;border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s;box-shadow:0 4px 20px rgba(13,148,136,0.35);"
+                            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(13,148,136,0.45)';"
+                            onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(13,148,136,0.35)';">
+                            <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Kirim via WhatsApp
+                        </button>
+                        <p style="text-align:center;font-size:0.75rem;color:var(--text-light);margin-top:-8px;"><i class="fas fa-lock" style="margin-right:4px;font-size:0.7rem;"></i>Pesanmu akan dikirim langsung ke WhatsApp kami</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ============================================================
+         HUB PAGES — muncul dulu saat klik fitur dari beranda
+         menampilkan daftar sub-fitur secara vertikal
+    ============================================================ -->
+
+    <!-- HUB: INZ Check & Journal -->
+    <div id="page-hub-b" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('fitur')">
+                <i class="fas fa-arrow-left"></i> Semua Fitur
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#8b5cf6;">INZ Check & Journal</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div class="hub-page-wrap">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div class="hub-hero-icon" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="hub-hero-text">
+                        <span class="hub-badge" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">INZ CHECK</span>
+                        <h1>INZ Check & Journal</h1>
+                        <p>Pemantauan kondisi emosional secara visual untuk membantu peningkatan kesadaran diri dan ketahanan psikologis. Pilih fitur yang ingin kamu jelajahi:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hub-divider"></div>
+            <div class="hub-sublist">
+                <div class="hub-subcard" onclick="hubGoTo('fitur-b','moodSwitchTab','checkin');" style="--hc:rgba(139,92,246,0.6);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);">
+                        <i class="fas fa-face-smile-beam"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Daily Mood Check-In</h3>
+                        <p>Pilih kondisi emosi harianmu sehingga platform dapat memvisualisasikan perkembangan psikologis secara berkala. Cukup satu tap setiap hari.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="hubGoTo('fitur-b','moodSwitchTab','skrining');">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6);">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Skrining Kesehatan Mental</h3>
+                        <p>Jawab 10 pernyataan dengan skala Likert 1–7 untuk mengetahui kondisi mental hari ini. Skor dihitung setelah semua pernyataan selesai dijawab.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+
+                <div class="hub-subcard" onclick="hubGoTo('fitur-b','moodSwitchTab','refleksi');">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Refleksi Harian</h3>
+                        <p>Tuliskan catatan singkat mengenai pengalaman atau perasaan yang dialami setiap hari sebagai bentuk self-reflection yang bermakna dan membangun.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HUB: INZ Alert -->
+    <div id="page-hub-alert" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('fitur')">
+                <i class="fas fa-arrow-left"></i> Semua Fitur
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#ef4444;">INZ Alert</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div class="hub-page-wrap" style="background:linear-gradient(160deg,#fff5f5 0%,#fff8f8 40%,#ffffff 100%);">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div class="hub-hero-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="hub-hero-text">
+                        <span class="hub-badge" style="background:rgba(239,68,68,0.1);color:#ef4444;">INZ ALERT</span>
+                        <h1>INZ Alert</h1>
+                        <p>Sistem peringatan dini berbasis deteksi pola perubahan kondisi psikologis yang membantumu bertindak sebelum terlambat. Pilih fitur yang ingin kamu akses:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hub-divider" style="background:linear-gradient(90deg,transparent,rgba(239,68,68,0.1),transparent);"></div>
+            <div class="hub-sublist">
+                <div class="hub-subcard" onclick="window._alertMode='ews'; hubGoTo('fitur-alert');" style="border-color:rgba(239,68,68,0.1);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Early Warning System</h3>
+                        <p>Sistem deteksi dini yang memantau perubahan pola emosi, grafik tren kondisi psikologis, dan memberikan sinyal peringatan sebelum kondisi memburuk secara signifikan.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(239,68,68,0.1);color:#ef4444;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="window._alertMode='tl'; hubGoTo('fitur-alert');" style="border-color:rgba(239,68,68,0.1);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c);">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Tindak Lanjut</h3>
+                        <p>Saran dan rekomendasi tindakan konkret berdasarkan hasil deteksi — dari latihan self-help hingga konsultasi langsung dengan psikolog profesional.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(239,68,68,0.1);color:#ef4444;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HUB: INZ Edu & Coping -->
+    <div id="page-hub-d" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('fitur')">
+                <i class="fas fa-arrow-left"></i> Semua Fitur
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#f59e0b;">INZ Edu & Coping</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div class="hub-page-wrap" style="background:linear-gradient(160deg,#fffbeb 0%,#fef3c7 40%,#ffffff 100%);">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div class="hub-hero-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="hub-hero-text">
+                        <span class="hub-badge" style="background:rgba(245,158,11,0.1);color:#f59e0b;">EDUKASI</span>
+                        <h1>INZ Edu & Coping</h1>
+                        <p>Pusat edukasi digital yang menyediakan informasi ringan dan interaktif terkait kesehatan mental. Belajar yang relevan, kapan saja. Pilih topik yang kamu mau:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hub-divider" style="background:linear-gradient(90deg,transparent,rgba(245,158,11,0.15),transparent);"></div>
+            <div class="hub-sublist">
+                <div class="hub-subcard" onclick="hubGoTo('fitur-d','eduSwitchTab','konten');" style="border-color:rgba(245,158,11,0.15);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Artikel & Video Edukasi</h3>
+                        <p>Konten singkat mengenai manajemen stres, pengendalian emosi, dan pola hidup digital sehat yang dikurasi oleh para ahli dan mudah dipahami remaja.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(245,158,11,0.1);color:#f59e0b;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="hubGoTo('fitur-d','eduSwitchTab','video');" style="border-color:rgba(245,158,11,0.15);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Tips Self-Development</h3>
+                        <p>Panduan sederhana untuk meningkatkan produktivitas, kepercayaan diri, dan keseimbangan emosional yang bisa langsung dipraktikkan sehari-hari.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(245,158,11,0.1);color:#f59e0b;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="hubGoTo('fitur-d','eduSwitchTab','coping');" style="border-color:rgba(245,158,11,0.15);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#d97706,#b45309);">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Latihan Coping</h3>
+                        <p>Latihan interaktif untuk mengelola emosi dan meredakan stres: pernapasan, grounding, relaksasi otot, dan pelabelan emosi berbasis bukti ilmiah.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(217,119,6,0.1);color:#d97706;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- HUB: INZ Ruh & Hope -->
+    <div id="page-hub-ruh" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('fitur')">
+                <i class="fas fa-arrow-left"></i> Semua Fitur
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#4f46e5;">INZ Ruh & Hope</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div class="hub-page-wrap" style="background:linear-gradient(160deg,#f0f4ff 0%,#e8edfb 40%,#ffffff 100%);">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div class="hub-hero-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
+                        <i class="fas fa-book-open-reader"></i>
+                    </div>
+                    <div class="hub-hero-text">
+                        <span class="hub-badge" style="background:rgba(79,70,229,0.1);color:#4f46e5;">SPIRITUAL</span>
+                        <h1>INZ Ruh & Hope</h1>
+                        <p>Penguatan spiritual, harapan, dan kedamaian batin berbasis nilai Islam. Temukan ketenangan melalui ayat, dzikir, dan refleksi. Pilih yang ingin kamu jelajahi:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hub-divider" style="background:linear-gradient(90deg,transparent,rgba(139,92,246,0.1),transparent);"></div>
+            <div class="hub-sublist">
+                <div class="hub-subcard" onclick="hubGoTo('fitur-ruh-a');" style="border-color:rgba(139,92,246,0.1);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Ayat Refleksi & Dzikir</h3>
+                        <p>Renungkan ayat-ayat Al-Qur'an dan dzikir yang relevan dengan kondisi emosionalmu hari ini untuk menemukan ketenangan dan harapan dari sumber terpercaya.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="hubGoTo('fitur-ruh-b');" style="border-color:rgba(139,92,246,0.1);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);">
+                        <i class="fas fa-star-and-crescent"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Afirmasi & Jurnal Syukur</h3>
+                        <p>Afirmasi positif berbasis spiritualitas Islam dan jurnal syukur harian untuk memperkuat ketahanan mental dan membangun pola pikir yang optimis.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HUB: INZ Support & Safe -->
+    <div id="page-hub-a" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('fitur')">
+                <i class="fas fa-arrow-left"></i> Semua Fitur
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#ec4899;">INZ Support & Safe</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div class="hub-page-wrap" style="background:linear-gradient(160deg,#fdf2f8 0%,#fce7f3 40%,#ffffff 100%);">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div class="hub-hero-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e);">
+                        <i class="fas fa-people-group"></i>
+                    </div>
+                    <div class="hub-hero-text">
+                        <span class="hub-badge" style="background:rgba(236,72,153,0.1);color:#ec4899;">DUKUNGAN</span>
+                        <h1>INZ Support & Safe</h1>
+                        <p>Ruang dukungan sebaya, koneksi ke konselor, dan jalur bantuan segera. Kamu tidak pernah sendirian di sini. Pilih ruang yang kamu butuhkan:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hub-divider" style="background:linear-gradient(90deg,transparent,rgba(236,72,153,0.12),transparent);"></div>
+            <div class="hub-sublist">
+                <div class="hub-subcard" onclick="hubGoTo('fitur-a','kolabSwitchTab','forum');" style="border-color:rgba(236,72,153,0.12);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e);">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Peer Support Group</h3>
+                        <p>Bergabung ke kelompok dukungan sebaya berbasis minat dalam ruang yang aman dan moderatif. Tumbuh bersama teman sebaya.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(236,72,153,0.1);color:#ec4899;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="hub-subcard" onclick="hubGoTo('fitur-a','kolabSwitchTab','anonim');" style="border-color:rgba(236,72,153,0.12);">
+                    <div class="hub-subcard-icon" style="background:linear-gradient(135deg,#f43f5e,#e11d48);">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="hub-subcard-body">
+                        <h3>Ruang Cerita Anonim</h3>
+                        <p>Bagikan pengalaman atau keresahan secara anonim agar lebih nyaman mengekspresikan emosi tanpa rasa takut dihakimi. Ceritamu aman di sini.</p>
+                    </div>
+                    <div class="hub-subcard-arrow" style="background:rgba(244,63,94,0.1);color:#f43f5e;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="page-fitur-a" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-a');window._lastPage='hub-a';">
+                <i class="fas fa-arrow-left"></i> Support & Safe
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <span style="color:var(--text-light);cursor:pointer;" onclick="_showPage('hub-a');window._lastPage='hub-a';">Support & Safe</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#0d9488;" id="fitur-a-active-label">Sub Fitur</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-a">
+        <div class="feature-detail-inner">
+            <!-- INTERACTIVE RUANG KOLABORASI APP -->
+            <div class="fd-preview" class="u-preview-wrap">
+                <div id="kolaborasiApp" class="u-ff-pop">
+                    <!-- Inline Tab Bar -->
+                    <div style="display:flex;overflow-x:auto;border-bottom:1px solid rgba(13,148,136,0.12);background:white;position:sticky;top:0;z-index:10;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+                        <button id="ktab-forum" onclick="kolabSwitchTab('forum')" style="flex:1;min-width:0;padding:12px 10px;border:none;background:none;font-family:'Poppins',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;color:var(--primary);border-bottom:3px solid var(--primary);transition:all .25s;white-space:nowrap;"><i class="fas fa-hands-helping" style="margin-right:4px;"></i>Peer Support</button>
+                        <button id="ktab-anonim" onclick="kolabSwitchTab('anonim')" style="flex:1;min-width:0;padding:12px 10px;border:none;background:none;font-family:'Poppins',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;color:var(--text-gray);border-bottom:3px solid transparent;transition:all .25s;white-space:nowrap;"><i class="fas fa-mask" style="margin-right:4px;"></i>Anonim</button>
+
+                    </div>
+                    <div id="kpanel-forum" style="padding:18px 16px;background:linear-gradient(135deg,#f0fdfa,#f8fffe);">
+                        <!-- BAGIAN: PEER SUPPORT GROUP -->
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-hands-helping" style="margin-right:6px;"></i>Peer Support Group</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:14px;">Kelompok kecil berbasis minat atau kebutuhan. Temukan komunitasmu dan tumbuh bersama.</p>
+
+                        <!-- Group List -->
+                        <div id="peerGroupList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;"></div>
+
+                        <!-- Buat Group Baru -->
+                        <div style="background:white;border-radius:14px;padding:16px;border:1.5px solid rgba(13,148,136,0.15);">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:10px;"><i class="fas fa-plus-circle" style="color:var(--primary);margin-right:6px;"></i>Buat grup baru</p>
+                            <input id="newGroupName" type="text" placeholder="Nama grup, misal: Belajar Bareng Fokus..." style="width:100%;padding:10px 14px;border:1.5px solid rgba(13,148,136,0.2);border-radius:10px;font-family:'Poppins',sans-serif;font-size:0.8rem;color:var(--text-dark);outline:none;transition:border .3s;margin-bottom:8px;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(13,148,136,0.2)'" />
+                            <input id="newGroupDesc" type="text" placeholder="Deskripsi singkat tujuan grup..." style="width:100%;padding:10px 14px;border:1.5px solid rgba(13,148,136,0.2);border-radius:10px;font-family:'Poppins',sans-serif;font-size:0.8rem;color:var(--text-dark);outline:none;transition:border .3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(13,148,136,0.2)'" />
+                            <div style="display:flex;margin-top:10px;">
+                                <button onclick="buatPeerGroup()" style="background:var(--gradient-1);color:white;border:none;padding:9px 22px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .3s;margin-left:auto;">
+                                    <i class="fas fa-users" style="margin-right:5px;"></i>Buat Grup
+                                </button>
+                            </div>
+                            <div id="groupMsg" style="font-size:0.72rem;color:var(--primary);margin-top:6px;min-height:16px;"></div>
+                        </div>
+                    </div>
+                    <div id="kpanel-anonim" style="padding:18px 16px;display:none;background:linear-gradient(135deg,#fafafa,#f1f5f9);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-theater-masks" style="margin-right:6px;"></i>Ruang Cerita Anonim</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:14px;">Bagikan pengalamanmu secara anonim. Identitasmu terlindungi — ceritamu aman di sini.</p>
+
+                        <!-- Cerita List -->
+                        <div id="anonStoryList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;"></div>
+
+                        <!-- Kirim Cerita Anonim -->
+                        <div style="background:white;border-radius:14px;padding:18px;border:1.5px solid rgba(100,116,139,0.15);box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#64748b,#475569);display:flex;align-items:center;justify-content:center;color:white;font-size:14px;flex-shrink:0;">
+                                    <i class="fas fa-mask"></i>
+                                </div>
+                                <div>
+                                    <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);">Bagikan ceritamu secara anonim</p>
+                                    <p style="font-size:0.68rem;color:var(--text-light);">Tidak ada yang tahu siapa kamu</p>
+                                </div>
+                            </div>
+                            <textarea id="anonInput" placeholder="Tulis pengalamanmu, keresahanmu, atau apapun yang ingin kamu ceritakan..." style="width:100%;height:90px;border:1.5px solid rgba(100,116,139,0.2);border-radius:10px;padding:12px;font-family:'Poppins',sans-serif;font-size:0.8rem;color:var(--text-dark);resize:none;outline:none;transition:border .3s;" onfocus="this.style.borderColor='#64748b'" onblur="this.style.borderColor='rgba(100,116,139,0.2)'"></textarea>
+                            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+                                <span style="font-size:0.72rem;color:var(--text-gray);align-self:center;">Topik:</span>
+                                <button onclick="selectAnonTag(this,'Akademik')" class="anon-tag" style="padding:4px 12px;border-radius:50px;border:1.5px solid rgba(100,116,139,0.25);background:white;font-size:0.68rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .25s;font-family:'Poppins',sans-serif;"><i class="fas fa-graduation-cap" style="margin-right:4px;"></i>Akademik</button>
+                                <button onclick="selectAnonTag(this,'Relasi')" class="anon-tag" style="padding:4px 12px;border-radius:50px;border:1.5px solid rgba(100,116,139,0.25);background:white;font-size:0.68rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .25s;font-family:'Poppins',sans-serif;"><i class="fas fa-heart" style="margin-right:3px;"></i>Relasi</button>
+                                <button onclick="selectAnonTag(this,'Keluarga')" class="anon-tag" style="padding:4px 12px;border-radius:50px;border:1.5px solid rgba(100,116,139,0.25);background:white;font-size:0.68rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .25s;font-family:'Poppins',sans-serif;"><i class="fas fa-home" style="margin-right:3px;"></i>Keluarga</button>
+                                <button onclick="selectAnonTag(this,'Emosi')" class="anon-tag" style="padding:4px 12px;border-radius:50px;border:1.5px solid rgba(100,116,139,0.25);background:white;font-size:0.68rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .25s;font-family:'Poppins',sans-serif;"><i class="fas fa-cloud" style="margin-right:3px;"></i>Emosi</button>
+                                <button onclick="kirimCeritaAnonim()" style="background:linear-gradient(135deg,#64748b,#475569);color:white;border:none;padding:8px 18px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;transition:all .3s;margin-left:auto;">
+                                    <i class="fas fa-paper-plane" style="margin-right:4px;"></i>Kirim Anonim
+                                </button>
+                            </div>
+                            <div id="anonMsg" style="font-size:0.72rem;color:#64748b;margin-top:8px;min-height:16px;"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PEER GROUP CHAT MODAL -->
+    <div id="groupChatModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeGroupChat()">
+        <div style="background:white;width:100%;max-width:520px;height:80vh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -10px 40px rgba(0,0,0,0.2);">
+            <div id="chatModalHeader" style="padding:16px 20px;border-bottom:1px solid rgba(13,148,136,0.12);display:flex;align-items:center;gap:12px;background:var(--gradient-1);">
+                <div id="chatModalIcon" style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;flex-shrink:0;"><i class="fas fa-users"></i></div>
+                <div style="flex:1;min-width:0;">
+                    <p id="chatModalName" style="font-size:0.88rem;font-weight:700;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></p>
+                    <p id="chatModalSub" style="font-size:0.68rem;color:rgba(255,255,255,0.8);"></p>
+                </div>
+                <button onclick="closeGroupChat()" style="background:rgba(255,255,255,0.2);border:none;border-radius:50%;width:32px;height:32px;color:white;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chatMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f8fffe;"></div>
+            <div style="padding:12px 16px;border-top:1px solid rgba(13,148,136,0.12);background:white;display:flex;gap:8px;align-items:center;">
+                <input id="chatInput" type="text" placeholder="Tulis pesanmu..." maxlength="300" style="flex:1;padding:10px 14px;border:1.5px solid rgba(13,148,136,0.2);border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.8rem;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(13,148,136,0.2)'" onkeydown="if(event.key==='Enter')sendGroupMessage()" />
+                <button onclick="sendGroupMessage()" style="width:40px;height:40px;border-radius:50%;background:var(--gradient-1);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    <div id="page-fitur-b" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-b');window._lastPage='hub-b';">
+                <i class="fas fa-arrow-left"></i> INZ Check
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <span style="color:var(--text-light);cursor:pointer;" onclick="_showPage('hub-b');window._lastPage='hub-b';">Check & Journal</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#8b5cf6;" id="fitur-b-active-label">Sub Fitur</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-b">
+        <div class="feature-detail-inner">
+            <!-- DYNAMIC MOOD TRACKER APP -->
+            <div class="fd-preview" class="u-preview-wrap">
+                <div id="moodTrackerApp" class="u-ff-pop">
+                    <div id="panel-checkin" style="padding:32px;background:linear-gradient(135deg,#f8fffe,#f0fdfa);">
+                        <div style="text-align:center;margin-bottom:24px;">
+                            <div id="moodDateLabel" style="font-size:0.78rem;color:var(--text-light);margin-bottom:6px;"></div>
+                            <p style="font-size:1rem;font-weight:700;color:var(--text-dark);">Bagaimana perasaanmu hari ini?</p>
+                            <p style="font-size:0.82rem;color:var(--text-gray);margin-top:4px;">Pilih emoji yang paling menggambarkan kondisimu</p>
+                        </div>
+
+                        <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:28px;">
+                            <button class="mdyn-btn u-mood-btn" data-val="1" data-label="Sangat Buruk" data-color="#ef4444" onclick="moodSelect(this)" title="Sangat Buruk">😔</button>
+                            <button class="mdyn-btn u-mood-btn" data-val="2" data-label="Kurang Baik" data-color="#f97316" onclick="moodSelect(this)" title="Kurang Baik">😕</button>
+                            <button class="mdyn-btn u-mood-btn" data-val="3" data-label="Biasa Saja" data-color="#f59e0b" onclick="moodSelect(this)" title="Biasa Saja">😐</button>
+                            <button class="mdyn-btn u-mood-btn" data-val="4" data-label="Lumayan Baik" data-color="#10b981" onclick="moodSelect(this)" title="Lumayan Baik">🙂</button>
+                            <button class="mdyn-btn u-mood-btn" data-val="5" data-label="Sangat Baik" data-color="#0d9488" onclick="moodSelect(this)" title="Sangat Baik">😄</button>
+                        </div>
+
+                        <!-- Mood feedback -->
+                        <div id="moodFeedback" style="text-align:center;margin-bottom:24px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(13,148,136,0.07);border-radius:14px;padding:12px 20px;display:none;">
+                            <span id="moodFeedbackEmoji" style="font-size:2.4rem;"></span>
+                            <div>
+                                <div id="moodFeedbackLabel" style="font-weight:700;font-size:0.9rem;color:var(--text-dark);"></div>
+                                <div id="moodFeedbackMsg" style="font-size:0.78rem;color:var(--text-gray);"></div>
+                            </div>
+                        </div>
+
+                        <!-- Simpan Button -->
+                        <div style="text-align:center;margin-bottom:28px;">
+                            <button onclick="moodSave()" style="background:var(--gradient-1);color:white;border:none;padding:12px 32px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(13,148,136,0.3);">
+                                <i class="fas fa-check" style="margin-right:6px;"></i>Simpan Check-In Hari Ini
+                            </button>
+                            <div id="saveMsg" style="font-size:0.78rem;color:var(--primary);margin-top:8px;min-height:20px;"></div>
+                        </div>
+
+                        <!-- Streak -->
+                        <div style="background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(13,148,136,0.08);">
+                            <p style="font-size:0.8rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;"><i class="fas fa-fire" style="color:#f97316;margin-right:6px;"></i>Streak Minggu Ini</p>
+                            <div id="streakRow" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+                        </div>
+                    </div>
+
+                    <div id="panel-refleksi" style="padding:32px;display:none;background:linear-gradient(135deg,#faf5ff,#f5f3ff);">
+                        <p style="font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:6px;"><i class="fas fa-pen-alt" style="margin-right:6px;"></i>Refleksi Harian</p>
+                        <p style="font-size:0.82rem;color:var(--text-gray);margin-bottom:20px;">Ceritakan pengalaman atau perasaanmu hari ini. Tidak ada yang menghakimi.</p>
+
+                        <div style="position:relative;margin-bottom:16px;">
+                            <textarea id="refleksiInput" placeholder="Hari ini aku merasa..." style="width:100%;height:110px;border:1.5px solid rgba(139,92,246,0.25);border-radius:14px;padding:14px 16px;font-family:'Poppins',sans-serif;font-size:0.88rem;color:var(--text-dark);background:white;resize:none;outline:none;transition:border .3s;line-height:1.7;" onfocus="this.style.borderColor='#8b5cf6'" onblur="this.style.borderColor='rgba(139,92,246,0.25)'"></textarea>
+                            <div id="charCount" style="position:absolute;bottom:10px;right:14px;font-size:0.7rem;color:var(--text-light);">0 / 300</div>
+                        </div>
+
+                        <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+                            <span style="font-size:0.75rem;color:var(--text-gray);margin-right:4px;align-self:center;">Pemicu:</span>
+                            <button onclick="addTag(this,'Akademik')" class="refleksi-tag" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(139,92,246,0.3);background:white;font-size:0.72rem;font-weight:600;color:#8b5cf6;cursor:pointer;transition:all .25s;"><i class="fas fa-graduation-cap" style="margin-right:4px;"></i>Akademik</button>
+                            <button onclick="addTag(this,'Relasi Sosial')" class="refleksi-tag" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(139,92,246,0.3);background:white;font-size:0.72rem;font-weight:600;color:#8b5cf6;cursor:pointer;transition:all .25s;"><i class="fas fa-heart" style="margin-right:3px;"></i>Relasi Sosial</button>
+                            <button onclick="addTag(this,'Keluarga')" class="refleksi-tag" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(139,92,246,0.3);background:white;font-size:0.72rem;font-weight:600;color:#8b5cf6;cursor:pointer;transition:all .25s;"><i class="fas fa-home" style="margin-right:3px;"></i>Keluarga</button>
+                            <button onclick="addTag(this,'Produktivitas')" class="refleksi-tag" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(139,92,246,0.3);background:white;font-size:0.72rem;font-weight:600;color:#8b5cf6;cursor:pointer;transition:all .25s;"><i class="fas fa-bolt" style="margin-right:4px;"></i>Produktivitas</button>
+                            <button onclick="addTag(this,'Digital')" class="refleksi-tag" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(139,92,246,0.3);background:white;font-size:0.72rem;font-weight:600;color:#8b5cf6;cursor:pointer;transition:all .25s;"><i class="fas fa-mobile-alt" style="margin-right:4px;"></i>Digital</button>
+                        </div>
+
+                        <button onclick="simpanRefleksi()" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);color:white;border:none;padding:12px 28px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(139,92,246,0.3);margin-bottom:24px;">
+                            <i class="fas fa-save" style="margin-right:6px;"></i>Simpan Refleksi
+                        </button>
+
+                        <!-- Riwayat Refleksi -->
+                        <div>
+                            <p style="font-size:0.8rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;"><i class="fas fa-history" style="color:#8b5cf6;margin-right:6px;"></i>Riwayat Refleksi</p>
+                            <div id="refleksiList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL: SKRINING KESEHATAN MENTAL -->
+                    <div id="panel-skrining" style="display:none;background:linear-gradient(135deg,#f0f9ff,#e0f2fe);padding:0;">
+                        <!-- Intro state -->
+                        <div id="skrining-intro" style="padding:32px;text-align:center;">
+                            <div style="width:64px;height:64px;background:linear-gradient(135deg,#8b5cf6,#6366f1);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(139,92,246,0.3);">
+                                <i class="fas fa-clipboard-list" style="color:white;font-size:1.5rem;"></i>
+                            </div>
+                            <h3 style="font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:8px;">Skrining Kesehatan Mental</h3>
+                            <p style="font-size:0.82rem;color:var(--text-gray);line-height:1.7;margin-bottom:8px;">10 pernyataan dengan skala 1–7 untuk mengetahui kondisi mental hari ini secara lebih mendalam. Skor dihitung setelah seluruh pernyataan dijawab.</p>
+                            <p style="font-size:0.75rem;color:var(--text-light);margin-bottom:24px;"><i class="fas fa-shield-alt" style="margin-right:4px;color:#0d9488;"></i>Bersifat pribadi · Tidak tersimpan ke server</p>
+                            <button onclick="mulaiSkrining()" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);color:white;border:none;padding:14px 36px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(139,92,246,0.35);transition:all .3s;">
+                                <i class="fas fa-play" style="margin-right:8px;"></i>Mulai Skrining
+                            </button>
+                        </div>
+                        <!-- Question state -->
+                        <div id="skrining-question" style="padding:32px;display:none;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                                <span id="skrining-step-label" style="font-size:0.75rem;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:.5px;"></span>
+                                <span id="skrining-progress-text" style="font-size:0.75rem;color:var(--text-light);"></span>
+                            </div>
+                            <div style="background:rgba(139,92,246,0.1);border-radius:8px;height:6px;margin-bottom:24px;overflow:hidden;">
+                                <div id="skrining-progress-bar" style="height:100%;background:linear-gradient(90deg,#8b5cf6,#6366f1);border-radius:8px;transition:width .4s ease;width:0%;"></div>
+                            </div>
+                            <div id="skrining-icon-wrap" style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:rgba(139,92,246,0.12);">
+                                <i id="skrining-q-icon" class="fas fa-brain" style="font-size:1.2rem;color:#8b5cf6;"></i>
+                            </div>
+                            <p id="skrining-q-text" style="font-size:0.95rem;font-weight:700;color:var(--text-dark);margin-bottom:6px;line-height:1.5;"></p>
+                            <p id="skrining-q-desc" style="font-size:0.78rem;color:var(--text-gray);margin-bottom:20px;line-height:1.6;"></p>
+                            <div id="skrining-options" style="display:flex;flex-direction:column;gap:10px;"></div>
+                            <div style="display:flex;justify-content:space-between;margin-top:24px;">
+                                <button id="skrining-prev-btn" onclick="skriningPrev()" style="background:rgba(139,92,246,0.1);color:#8b5cf6;border:none;padding:10px 20px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;display:none;">
+                                    <i class="fas fa-chevron-left" style="margin-right:6px;"></i>Sebelumnya
+                                </button>
+                                <span></span>
+                                <button id="skrining-next-btn" onclick="skriningNext()" style="background:linear-gradient(135deg,#8b5cf6,#6366f1);color:white;border:none;padding:10px 24px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;opacity:0.4;pointer-events:none;transition:all .3s;">
+                                    Lanjut <i class="fas fa-chevron-right" style="margin-left:6px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Result state -->
+                        <div id="skrining-result" style="padding:32px;display:none;">
+                            <div id="skrining-result-badge" style="border-radius:20px;padding:24px;text-align:center;margin-bottom:20px;"></div>
+                            <div id="skrining-result-detail" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
+                            <div id="skrining-result-saran" style="background:white;border-radius:16px;padding:18px;margin-bottom:20px;border:1px solid rgba(139,92,246,0.15);"></div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button onclick="resetSkrining()" style="flex:1;background:rgba(139,92,246,0.1);color:#8b5cf6;border:none;padding:12px 20px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;">
+                                    <i class="fas fa-redo" style="margin-right:6px;"></i>Ulangi Skrining
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </div>
+    <div id="page-fitur-c" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('beranda')">
+                <i class="fas fa-arrow-left"></i> Beranda
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">Fitur</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#f59e0b;">INZ Kolaborasi</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-c">
+        <div class="feature-detail-inner">
+            <!-- INTERACTIVE COMMUNITY CHALLENGE APP -->
+            <div class="fd-preview" class="u-preview-wrap">
+                <div id="challengeApp" class="u-ff-pop">
+                    <div id="cpanel-tantangan" style="padding:24px;background:linear-gradient(135deg,#fffbeb,#fef3c7);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-fire" style="margin-right:6px;color:#f97316;"></i>Tantangan Positif Minggu Ini</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:18px;">Pilih dan ikuti challenge untuk membangun kebiasaan positif. Setiap langkah kecil membentuk perubahan besar.</p>
+
+                        <div id="challengeList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;"></div>
+
+                        <div style="background:white;border-radius:14px;padding:16px;border:1.5px solid rgba(245,158,11,0.2);">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:10px;"><i class="fas fa-plus-circle" style="color:#f59e0b;margin-right:6px;"></i>Usulkan tantangan baru</p>
+                            <input id="newChallName" type="text" placeholder="Nama tantangan, misal: Olahraga 15 Menit..." style="width:100%;padding:10px 14px;border:1.5px solid rgba(245,158,11,0.2);border-radius:10px;font-family:'Poppins',sans-serif;font-size:0.8rem;color:var(--text-dark);outline:none;transition:border .3s;margin-bottom:8px;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(245,158,11,0.2)'" />
+                            <div style="display:flex;gap:8px;margin-top:4px;">
+                                <select id="newChallCat" style="padding:7px 12px;border-radius:50px;border:1.5px solid rgba(245,158,11,0.2);font-family:'Poppins',sans-serif;font-size:0.75rem;color:var(--text-dark);outline:none;">
+                                    <option>Journaling</option>
+                                    <option>Digital Detox</option>
+                                    <option>Tidur Teratur</option>
+                                    <option>Sosial Positif</option>
+                                    <option>Mindfulness</option>
+                                </select>
+                                <button onclick="usulkanChallenge()" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:white;border:none;padding:8px 18px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;margin-left:auto;">
+                                    <i class="fas fa-paper-plane" style="margin-right:4px;"></i>Usulkan
+                                </button>
+                            </div>
+                            <div id="challMsg" style="font-size:0.72rem;color:#f59e0b;margin-top:6px;min-height:16px;"></div>
+                        </div>
+                    </div>
+                    <div id="cpanel-progress" style="padding:24px;display:none;background:linear-gradient(135deg,#fafafa,#fff7ed);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-trophy" style="margin-right:6px;color:#f59e0b;"></i>Progress & Achievement</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:18px;">Setiap tantangan yang kamu selesaikan memberimu poin, badge, dan pencapaian nyata sebagai bukti pertumbuhanmu.</p>
+
+                        <!-- Progress Bars -->
+                        <div style="background:white;border-radius:14px;padding:18px;border:1.5px solid rgba(245,158,11,0.12);margin-bottom:16px;">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:14px;"><i class="fas fa-chart-line" style="color:#f59e0b;margin-right:6px;"></i>Progress Minggu Ini</p>
+                            <div id="progressBars" style="display:flex;flex-direction:column;gap:12px;"></div>
+                        </div>
+
+                        <!-- Badges -->
+                        <div style="background:white;border-radius:14px;padding:18px;border:1.5px solid rgba(245,158,11,0.12);">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:14px;"><i class="fas fa-medal" style="color:#f59e0b;margin-right:6px;"></i>Badge yang Terkumpul</p>
+                            <div id="badgeGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;"></div>
+                        </div>
+                    </div>
+                    <div id="cpanel-kolaborasi" style="padding:24px;display:none;background:linear-gradient(135deg,#f0fdfa,#ecfdf5);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-hands-helping" style="margin-right:6px;"></i>Kolaborasi Komunitas</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:18px;">Challenge lebih seru kalau dilakukan bersama. Lihat siapa saja yang sedang aktif dan beri semangat satu sama lain!</p>
+
+                        <!-- Leaderboard -->
+                        <div style="background:white;border-radius:14px;padding:18px;border:1.5px solid rgba(13,148,136,0.12);margin-bottom:16px;">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:14px;"><i class="fas fa-ranking-star" style="color:#f59e0b;margin-right:6px;"></i>Papan Komunitas Minggu Ini</p>
+                            <div id="leaderboard" style="display:flex;flex-direction:column;gap:8px;"></div>
+                        </div>
+
+                        <!-- Activity Feed -->
+                        <div style="background:white;border-radius:14px;padding:18px;border:1.5px solid rgba(13,148,136,0.12);">
+                            <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;"><i class="fas fa-bolt" style="color:#f59e0b;margin-right:6px;"></i>Aktivitas Terbaru</p>
+                            <div id="challActivityFeed" style="display:flex;flex-direction:column;gap:8px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    </div>
+    <div id="page-fitur-d" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-d');window._lastPage='hub-d';">
+                <i class="fas fa-arrow-left"></i> Edu & Coping
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <span style="color:var(--text-light);cursor:pointer;" onclick="_showPage('hub-d');window._lastPage='hub-d';">Edu & Coping</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#f59e0b;" id="fitur-d-active-label">Sub Fitur</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-d">
+        <div class="feature-detail-inner">
+            <!-- INTERACTIVE EDUSPACE APP -->
+            <div class="fd-preview" class="u-preview-wrap">
+                <div id="eduSpaceApp" class="u-ff-pop">
+                    <div id="epanel-konten" style="padding:24px;background:linear-gradient(135deg,#fffbeb,#fef3c7);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-book-open" style="margin-right:6px;color:#f59e0b;"></i>Artikel & Sumber Edukasi</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:16px;">Konten kesehatan mental dan kehidupan digital remaja yang relevan dan terpercaya.</p>
+
+                        <!-- Filter Kategori -->
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+                            <button onclick="filterEdu(this,'semua')" class="edu-cat-btn" style="padding:5px 14px;border-radius:50px;border:1.5px solid #f59e0b;background:#f59e0b;color:white;font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Semua</button>
+                            <button onclick="filterEdu(this,'stres')" class="edu-cat-btn" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(245,158,11,0.3);background:white;color:var(--text-gray);font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;"><i class="fas fa-brain" style="margin-right:4px;"></i>Stres & Burnout</button>
+                            <button onclick="filterEdu(this,'digital')" class="edu-cat-btn" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(245,158,11,0.3);background:white;color:var(--text-gray);font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;"><i class="fas fa-mobile-alt" style="margin-right:4px;"></i>Kehidupan Digital</button>
+                            <button onclick="filterEdu(this,'selfdev')" class="edu-cat-btn" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(245,158,11,0.3);background:white;color:var(--text-gray);font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;"><i class="fas fa-seedling" style="margin-right:4px;"></i>Self-Dev</button>
+                            <button onclick="filterEdu(this,'relasi')" class="edu-cat-btn" style="padding:5px 14px;border-radius:50px;border:1.5px solid rgba(245,158,11,0.3);background:white;color:var(--text-gray);font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;"><i class="fas fa-heart" style="margin-right:3px;"></i>Relasi</button>
+                        </div>
+
+                        <div id="eduArtikelList" style="display:flex;flex-direction:column;gap:12px;"></div>
+                    </div>
+                    <div id="epanel-video" style="padding:24px;display:none;background:linear-gradient(135deg,#fff7ed,#ffedd5);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-play-circle" style="margin-right:5px;color:#f97316;"></i>Video Edukasi</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:14px;">Video terpilih dari YouTube tentang kesehatan mental, kehidupan digital, dan perspektif Islam.</p>
+                        <!-- Sub-tab Video -->
+                        <div style="display:flex;gap:8px;margin-bottom:18px;border-bottom:2px solid rgba(245,158,11,0.12);padding-bottom:10px;overflow-x:auto;scrollbar-width:none;">
+                            <button id="vtab-umum" onclick="videoSwitchTab('umum')" style="padding:6px 16px;border-radius:50px;border:none;background:#f97316;color:white;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .25s;"><i class="fas fa-brain" style="margin-right:5px;"></i>Psikologi Umum</button>
+                            <button id="vtab-islami" onclick="videoSwitchTab('islami')" style="padding:6px 16px;border-radius:50px;border:none;background:white;color:var(--text-gray);border:1.5px solid rgba(13,148,136,0.25);font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .25s;"><i class="fas fa-star-and-crescent" style="margin-right:5px;color:#0d9488;"></i>Mental Islami</button>
+                            <button id="vtab-surah" onclick="videoSwitchTab('surah')" style="padding:6px 16px;border-radius:50px;border:none;background:white;color:var(--text-gray);border:1.5px solid rgba(139,92,246,0.25);font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .25s;"><i class="fas fa-book-quran" style="margin-right:5px;color:#7c3aed;"></i>Makna Surah</button>
+                        </div>
+                        <!-- Panel: Psikologi Umum -->
+                        <div id="vpanel-umum" style="display:flex;flex-direction:column;gap:14px;">
+                            <div id="eduVideoList" style="display:flex;flex-direction:column;gap:14px;"></div>
+                        </div>
+                        <!-- Panel: Mental Islami -->
+                        <div id="vpanel-islami" style="display:none;flex-direction:column;gap:14px;">
+                            <!-- Intro badge -->
+                            <div style="background:linear-gradient(135deg,#f0fdfa,#d1fae5);border-radius:14px;padding:14px 16px;border:1.5px solid rgba(13,148,136,0.18);display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+                                <div style="width:40px;height:40px;background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-mosque" style="color:white;font-size:1rem;"></i></div>
+                                <div>
+                                    <p style="font-size:0.78rem;font-weight:700;color:#065f46;margin:0 0 2px;">Edukasi Mental Islami</p>
+                                    <p style="font-size:0.68rem;color:#047857;margin:0;line-height:1.5;">Panduan kesehatan jiwa berbasis Al-Qur'an, Sunnah, dan nilai-nilai Islam yang menyejukkan hati.</p>
+                                </div>
+                            </div>
+                            <div id="eduVideoIslamiList" style="display:flex;flex-direction:column;gap:14px;"></div>
+                        </div>
+                        <!-- Panel: Makna Surah -->
+                        <div id="vpanel-surah" style="display:none;flex-direction:column;gap:14px;">
+                            <!-- Intro badge -->
+                            <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe);border-radius:14px;padding:14px 16px;border:1.5px solid rgba(139,92,246,0.2);display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+                                <div style="width:40px;height:40px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-book-quran" style="color:white;font-size:1rem;"></i></div>
+                                <div>
+                                    <p style="font-size:0.78rem;font-weight:700;color:#4c1d95;margin:0 0 2px;">Makna Surah Fondasi AL-INZAR</p>
+                                    <p style="font-size:0.68rem;color:#6d28d9;margin:0;line-height:1.5;">Video tafsir dua ayat yang menjadi landasan spiritual platform ini: Az-Zumar:53 &amp; Ar-Ra'd:28.</p>
+                                </div>
+                            </div>
+                            <div id="eduVideoSurahList" style="display:flex;flex-direction:column;gap:18px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- COPING PANEL -->
+                    <div id="epanel-coping" style="padding:24px;display:none;background:linear-gradient(135deg,#f0fdfa,#e0f2fe);">
+                        <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;"><i class="fas fa-hand-holding-heart" style="margin-right:6px;color:#0d9488;"></i>Latihan Coping & Edukasi Mental</p>
+                        <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:14px;">Pilih latihan coping berbasis bukti ilmiah atau pelajari edukasi mental dari perspektif Islam.</p>
+
+                        <!-- Sub-tab Coping -->
+                        <div style="display:flex;gap:8px;margin-bottom:18px;border-bottom:2px solid rgba(13,148,136,0.1);padding-bottom:10px;overflow-x:auto;scrollbar-width:none;">
+                            <button id="ctab-latihan" onclick="copingSwitchTab('latihan')" style="padding:6px 16px;border-radius:50px;border:none;background:linear-gradient(135deg,#0d9488,#06b6d4);color:white;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .25s;"><i class="fas fa-dumbbell" style="margin-right:5px;"></i>Latihan Coping</button>
+                            <button id="ctab-islami" onclick="copingSwitchTab('islami')" style="padding:6px 16px;border-radius:50px;border:none;background:white;color:var(--text-gray);border:1.5px solid rgba(13,148,136,0.25);font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:all .25s;"><i class="fas fa-moon" style="margin-right:5px;color:#0d9488;"></i>Edukasi Mental Islami</button>
+                        </div>
+
+                        <!-- Sub-panel: Latihan Coping -->
+                        <div id="cpanel-latihan">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="copingCardGrid">
+
+                            <!-- Card 1: Pernapasan -->
+                            <div class="coping-card" onclick="openCopingModal('nafas')" style="background:white;border-radius:16px;padding:20px 16px;border:1.5px solid rgba(6,182,212,0.2);box-shadow:0 2px 10px rgba(6,182,212,0.08);cursor:pointer;transition:all .25s;text-align:center;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(6,182,212,0.18)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 10px rgba(6,182,212,0.08)'">
+                                <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#06b6d4,#0ea5e9);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                                    <i class="fas fa-wind" style="color:white;font-size:1.3rem;"></i>
+                                </div>
+                                <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;">Pernapasan</p>
+                                <p style="font-size:0.68rem;color:var(--text-gray);margin-bottom:12px;line-height:1.4;">Teknik 4-7-8 untuk menenangkan sistem saraf</p>
+                                <button style="background:linear-gradient(135deg,#06b6d4,#0ea5e9);color:white;border:none;padding:7px 18px;border-radius:50px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Mulai</button>
+                            </div>
+
+                            <!-- Card 2: Grounding -->
+                            <div class="coping-card" onclick="openCopingModal('grounding')" style="background:white;border-radius:16px;padding:20px 16px;border:1.5px solid rgba(52,211,153,0.2);box-shadow:0 2px 10px rgba(52,211,153,0.08);cursor:pointer;transition:all .25s;text-align:center;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(52,211,153,0.18)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 10px rgba(52,211,153,0.08)'">
+                                <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#34d399,#10b981);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                                    <i class="fas fa-leaf" style="color:white;font-size:1.3rem;"></i>
+                                </div>
+                                <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;">Grounding 5-4-3-2-1</p>
+                                <p style="font-size:0.68rem;color:var(--text-gray);margin-bottom:12px;line-height:1.4;">Kembali ke saat ini dengan indera</p>
+                                <button style="background:linear-gradient(135deg,#34d399,#10b981);color:white;border:none;padding:7px 18px;border-radius:50px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Mulai</button>
+                            </div>
+
+                            <!-- Card 3: Relaksasi Otot -->
+                            <div class="coping-card" onclick="openCopingModal('relaksasi')" style="background:white;border-radius:16px;padding:20px 16px;border:1.5px solid rgba(13,148,136,0.2);box-shadow:0 2px 10px rgba(13,148,136,0.08);cursor:pointer;transition:all .25s;text-align:center;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(13,148,136,0.18)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 10px rgba(13,148,136,0.08)'">
+                                <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0d9488,#0f766e);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                                    <i class="fas fa-person-rays" style="color:white;font-size:1.3rem;"></i>
+                                </div>
+                                <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;">Relaksasi Otot</p>
+                                <p style="font-size:0.68rem;color:var(--text-gray);margin-bottom:12px;line-height:1.4;">Progressive muscle relaxation guided</p>
+                                <button style="background:linear-gradient(135deg,#0d9488,#0f766e);color:white;border:none;padding:7px 18px;border-radius:50px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Mulai</button>
+                            </div>
+
+                            <!-- Card 4: Emotion Labeling -->
+                            <div class="coping-card" onclick="openCopingModal('emosi')" style="background:white;border-radius:16px;padding:20px 16px;border:1.5px solid rgba(245,158,11,0.2);box-shadow:0 2px 10px rgba(245,158,11,0.08);cursor:pointer;transition:all .25s;text-align:center;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(245,158,11,0.18)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 10px rgba(245,158,11,0.08)'">
+                                <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                                    <i class="fas fa-tags" style="color:white;font-size:1.2rem;"></i>
+                                </div>
+                                <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:4px;">Emotion Labeling</p>
+                                <p style="font-size:0.68rem;color:var(--text-gray);margin-bottom:12px;line-height:1.4;">Kenali dan beri nama emosimu</p>
+                                <button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;padding:7px 18px;border-radius:50px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Mulai</button>
+                            </div>
+                        </div>
+                        </div><!-- /cpanel-latihan -->
+
+                        <!-- Sub-panel: Edukasi Mental Islami -->
+                        <div id="cpanel-islami" style="display:none;">
+                            <!-- Header Banner -->
+                            <div style="background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:16px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden;">
+                                <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
+                                <div style="position:absolute;bottom:-30px;left:-10px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+                                <div style="position:relative;z-index:1;">
+                                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                                        <div style="width:38px;height:38px;background:rgba(255,255,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-mosque" style="color:white;font-size:1rem;"></i></div>
+                                        <div>
+                                            <p style="color:rgba(255,255,255,0.75);font-size:0.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0;">Edukasi Mental Islami</p>
+                                            <p style="color:white;font-size:0.88rem;font-weight:700;margin:0;">Hifz Nafs dalam Bingkai Islam</p>
+                                        </div>
+                                    </div>
+                                    <p style="color:rgba(255,255,255,0.85);font-size:0.72rem;line-height:1.6;margin:0;">Islam memandang jiwa sebagai amanah. Menjaganya (hifz al-nafs) adalah kewajiban, dan Al-Qur'an serta Sunnah menawarkan terapi jiwa yang paripurna.</p>
+                                </div>
+                            </div>
+
+                            <!-- Materi 1: Konsep Hifz Nafs -->
+                            <div style="background:white;border-radius:14px;padding:16px 18px;border:1.5px solid rgba(13,148,136,0.15);box-shadow:0 2px 8px rgba(13,148,136,0.06);margin-bottom:12px;">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0d9488,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-shield-heart" style="color:white;font-size:0.85rem;"></i></div>
+                                    <div>
+                                        <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin:0;">1. Apa itu Hifz al-Nafs?</p>
+                                        <p style="font-size:0.65rem;color:#0d9488;font-weight:600;margin:0;">Maqashid Syariah · Menjaga Jiwa</p>
+                                    </div>
+                                </div>
+                                <p style="font-size:0.75rem;color:var(--text-gray);line-height:1.65;margin-bottom:10px;"><strong style="color:var(--text-dark);">Hifz al-Nafs</strong> (menjaga jiwa) adalah salah satu dari lima maqashid syariah (tujuan pokok syariat Islam). Artinya, merawat kesehatan mental bukan hanya pilihan — ini adalah <em>ibadah</em> dan kewajiban setiap Muslim.</p>
+                                <div style="background:rgba(13,148,136,0.06);border-left:3px solid #0d9488;border-radius:0 8px 8px 0;padding:10px 14px;">
+                                    <p style="font-family:'Scheherazade New',serif;font-size:18px;direction:rtl;text-align:right;color:#065f46;margin-bottom:6px;">وَلَا تَقْتُلُوٓا۟ أَنفُسَكُمْ ۚ إِنَّ ٱللَّهَ كَانَ بِكُمْ رَحِيمًا</p>
+                                    <p style="font-size:0.68rem;color:var(--text-gray);font-style:italic;margin:0;">"Dan janganlah kamu membunuh dirimu. Sungguh, Allah Maha Penyayang kepadamu." — QS. An-Nisa: 29</p>
+                                </div>
+                            </div>
+
+                            <!-- Materi 2: Penyakit Hati & Penyembuhnya -->
+                            <div style="background:white;border-radius:14px;padding:16px 18px;border:1.5px solid rgba(124,58,237,0.15);box-shadow:0 2px 8px rgba(124,58,237,0.06);margin-bottom:12px;">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-heart-broken" style="color:white;font-size:0.85rem;"></i></div>
+                                    <div>
+                                        <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin:0;">2. Penyakit Hati & Obatnya dalam Islam</p>
+                                        <p style="font-size:0.65rem;color:#7c3aed;font-weight:600;margin:0;">Tazkiyatun Nafs · Penyucian Jiwa</p>
+                                    </div>
+                                </div>
+                                <p style="font-size:0.75rem;color:var(--text-gray);line-height:1.65;margin-bottom:10px;">Islam mengenal penyakit hati (<em>amradh al-qulub</em>) seperti hasad, was-was, takabbur, dan putus asa. Obatnya bukan semata terapi psikologi, melainkan:</p>
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    <div style="display:flex;align-items:center;gap:8px;font-size:0.73rem;color:var(--text-dark);"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:white;font-size:0.55rem;"></i></span><span><strong>Tilawah Al-Qur'an</strong> — syifa' (penyembuh) bagi dada yang sempit</span></div>
+                                    <div style="display:flex;align-items:center;gap:8px;font-size:0.73rem;color:var(--text-dark);"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:white;font-size:0.55rem;"></i></span><span><strong>Dzikrullah</strong> — ketenangan jiwa yang hakiki (Ar-Ra'd: 28)</span></div>
+                                    <div style="display:flex;align-items:center;gap:8px;font-size:0.73rem;color:var(--text-dark);"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:white;font-size:0.55rem;"></i></span><span><strong>Shalat & Istighfar</strong> — mencuci dosa dan beban mental</span></div>
+                                    <div style="display:flex;align-items:center;gap:8px;font-size:0.73rem;color:var(--text-dark);"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-check" style="color:white;font-size:0.55rem;"></i></span><span><strong>Sabar & Syukur</strong> — dua senjata mukmin menghadapi cobaan</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Materi 3: Sabar & Syukur -->
+                            <div style="background:white;border-radius:14px;padding:16px 18px;border:1.5px solid rgba(245,158,11,0.2);box-shadow:0 2px 8px rgba(245,158,11,0.06);margin-bottom:12px;">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-sun" style="color:white;font-size:0.85rem;"></i></div>
+                                    <div>
+                                        <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin:0;">3. Sabar & Syukur sebagai Terapi Jiwa</p>
+                                        <p style="font-size:0.65rem;color:#d97706;font-weight:600;margin:0;">Resiliensi Islami</p>
+                                    </div>
+                                </div>
+                                <p style="font-size:0.75rem;color:var(--text-gray);line-height:1.65;margin-bottom:10px;">Nabi ﷺ bersabda: <em>"Sungguh menakjubkan urusan seorang mukmin. Seluruh urusannya adalah kebaikan. Jika diberi kenikmatan ia bersyukur, maka itu baik baginya. Jika ditimpa musibah ia bersabar, maka itu pun baik baginya."</em> (HR. Muslim)</p>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                    <div style="background:rgba(245,158,11,0.07);border-radius:10px;padding:10px 12px;text-align:center;">
+                                        <i class="fas fa-mountain-sun" style="color:#d97706;font-size:1.1rem;margin-bottom:6px;"></i>
+                                        <p style="font-size:0.72rem;font-weight:700;color:var(--text-dark);margin-bottom:3px;">Sabar</p>
+                                        <p style="font-size:0.65rem;color:var(--text-gray);line-height:1.4;">Menahan diri dari berkeluh kesah berlebih & tetap taat</p>
+                                    </div>
+                                    <div style="background:rgba(16,185,129,0.07);border-radius:10px;padding:10px 12px;text-align:center;">
+                                        <i class="fas fa-hands-holding" style="color:#10b981;font-size:1.1rem;margin-bottom:6px;"></i>
+                                        <p style="font-size:0.72rem;font-weight:700;color:var(--text-dark);margin-bottom:3px;">Syukur</p>
+                                        <p style="font-size:0.65rem;color:var(--text-gray);line-height:1.4;">Mengakui nikmat & memanfaatkannya di jalan yang benar</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Materi 4: Doa & Dzikir untuk Kesehatan Mental -->
+                            <div style="background:white;border-radius:14px;padding:16px 18px;border:1.5px solid rgba(13,148,136,0.15);box-shadow:0 2px 8px rgba(13,148,136,0.06);margin-bottom:12px;">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0d9488,#34d399);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-hands-praying" style="color:white;font-size:0.85rem;"></i></div>
+                                    <div>
+                                        <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin:0;">4. Doa & Dzikir untuk Ketenangan Jiwa</p>
+                                        <p style="font-size:0.65rem;color:#0d9488;font-weight:600;margin:0;">Praktis · Bisa langsung diamalkan</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-direction:column;gap:10px;">
+                                    <!-- Dzikir 1 -->
+                                    <div style="background:rgba(13,148,136,0.05);border-radius:10px;padding:12px 14px;border:1px solid rgba(13,148,136,0.12);">
+                                        <p style="font-family:'Scheherazade New',serif;font-size:20px;direction:rtl;text-align:right;color:#065f46;margin-bottom:4px;line-height:1.9;">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ</p>
+                                        <p style="font-size:0.68rem;color:var(--text-gray);font-style:italic;margin-bottom:4px;">Allāhumma innī a'ūdzu bika minal-hammi wal-ḥazan</p>
+                                        <p style="font-size:0.7rem;color:#047857;font-weight:600;margin:0;">"Ya Allah, aku berlindung kepada-Mu dari rasa gundah dan sedih" — HR. Bukhari</p>
+                                    </div>
+                                    <!-- Dzikir 2 -->
+                                    <div style="background:rgba(124,58,237,0.05);border-radius:10px;padding:12px 14px;border:1px solid rgba(124,58,237,0.12);">
+                                        <p style="font-family:'Scheherazade New',serif;font-size:20px;direction:rtl;text-align:right;color:#4c1d95;margin-bottom:4px;line-height:1.9;">حَسْبِيَ اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيْهِ تَوَكَّلْتُ</p>
+                                        <p style="font-size:0.68rem;color:var(--text-gray);font-style:italic;margin-bottom:4px;">Ḥasbiyallāhu lā ilāha illā huwa, 'alayhi tawakkaltu</p>
+                                        <p style="font-size:0.7rem;color:#6d28d9;font-weight:600;margin:0;">"Cukuplah Allah bagiku, tidak ada tuhan selain Dia, kepada-Nya aku bertawakal" — QS. At-Taubah: 129</p>
+                                    </div>
+                                    <!-- Dzikir 3 -->
+                                    <div style="background:rgba(245,158,11,0.05);border-radius:10px;padding:12px 14px;border:1px solid rgba(245,158,11,0.15);">
+                                        <p style="font-family:'Scheherazade New',serif;font-size:20px;direction:rtl;text-align:right;color:#92400e;margin-bottom:4px;line-height:1.9;">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ</p>
+                                        <p style="font-size:0.68rem;color:var(--text-gray);font-style:italic;margin-bottom:4px;">Subḥānallāhi wa biḥamdih, subḥānallāhil-'aẓīm</p>
+                                        <p style="font-size:0.7rem;color:#b45309;font-weight:600;margin:0;">"Dua kalimat yang ringan di lisan, berat di timbangan, dicintai Allah" — HR. Bukhari & Muslim</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Materi 5: Islam & Profesional -->
+                            <div style="background:linear-gradient(135deg,#f0fdfa,#d1fae5);border-radius:14px;padding:16px 18px;border:1.5px solid rgba(13,148,136,0.2);">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-user-doctor" style="color:white;font-size:0.85rem;"></i></div>
+                                    <div>
+                                        <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin:0;">5. Berobat itu Sunnah</p>
+                                        <p style="font-size:0.65rem;color:#059669;font-weight:600;margin:0;">Islam mendukung profesionalisme kesehatan</p>
+                                    </div>
+                                </div>
+                                <p style="font-size:0.75rem;color:#065f46;line-height:1.65;">Rasulullah ﷺ bersabda: <em>"Berobatlah wahai hamba-hamba Allah, karena sesungguhnya Allah tidak menciptakan penyakit kecuali Dia juga menciptakan obatnya."</em> (HR. Abu Dawud). Mencari bantuan psikolog atau konselor adalah bagian dari ikhtiar yang dianjurkan Islam — bukan kelemahan.</p>
+                            </div>
+                        </div><!-- /cpanel-islami -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: INZ ALERT — Early Warning System (P3)                -->
+    <!-- ============================================================ -->
+    <div id="page-fitur-alert" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-alert');window._lastPage='hub-alert';">
+                <i class="fas fa-arrow-left"></i> INZ Alert
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong id="alertBreadcrumbLabel" style="color:#ef4444;">INZ Alert</strong>
+            </div>
+        </div>
+        <section class="feature-detail" id="fitur-alert">
+            <div class="feature-detail-inner">
+
+                <!-- Header -->
+                <!-- Subfeat cards -->
+                <!-- ===== MAIN APP AREA ===== -->
+                <div class="fd-preview" id="alertStatusCard">
+                    <div class="u-ff-pop" id="alertApp">
+
+                        <!-- Loading State -->
+                        <div id="alertLoading" style="padding:60px 32px;text-align:center;">
+                            <div style="width:56px;height:56px;border:3px solid rgba(99,102,241,0.15);border-top-color:#6366f1;border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 20px;"></div>
+                            <p style="font-size:0.88rem;color:var(--text-gray);">Membaca riwayat INZ Check-mu…</p>
+                        </div>
+
+                        <!-- No Data State -->
+                        <div id="alertNoData" style="padding:60px 32px;text-align:center;display:none;">
+                            <div style="width:72px;height:72px;background:rgba(99,102,241,0.08);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                                <i class="fas fa-inbox" style="font-size:1.8rem;color:#6366f1;"></i>
+                            </div>
+                            <p style="font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:8px;">Belum Ada Data Riwayat</p>
+                            <p style="font-size:0.82rem;color:var(--text-gray);margin-bottom:24px;line-height:1.7;">INZ Alert membutuhkan minimal 3 sesi INZ Check untuk mulai mendeteksi pola. Yuk, mulai lakukan check-in harian!</p>
+                            <button onclick="navigateTo('fitur-b')" style="background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;border:none;padding:12px 28px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(99,102,241,0.3);">
+                                <i class="fas fa-clipboard-check" style="margin-right:6px;"></i>Buka INZ Check
+                            </button>
+                        </div>
+
+                        <!-- Main Dashboard (shown when data exists) -->
+                        <div id="alertDashboard" style="display:none;">
+
+                            <!-- ── STATUS CARD ── -->
+                            <div id="alertStatusBanner" style="padding:28px 28px 0;"></div>
+
+                            <!-- ── POLA DETEKSI BADGES ── -->
+                            <div id="alertPolaWrap" style="padding:20px 28px 0;">
+                                <p style="font-size:0.78rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;"><i class="fas fa-magnifying-glass-chart" style="color:#6366f1;margin-right:6px;"></i>Pola Terdeteksi</p>
+                                <div id="alertPatternBadges" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+                            </div>
+
+                            <!-- ── GRAFIK TREN ── -->
+                            <div id="alertChartWrap" style="padding:24px 28px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+                                    <div>
+                                        <p style="font-size:0.88rem;font-weight:700;color:var(--text-dark);">Tren 30 Hari Terakhir</p>
+                                        <p style="font-size:0.73rem;color:var(--text-gray);">Mood · Kesehatan Mental</p>
+                                    </div>
+                                    <div style="display:flex;gap:14px;font-size:0.73rem;color:var(--text-gray);align-items:center;flex-wrap:wrap;">
+                                        <span style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#6366f1;"></span>Mood</span>
+                                        <span style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0d9488;"></span>Kesehatan Mental</span>
+                                    </div>
+                                </div>
+                                <div style="position:relative;height:320px;">
+                                    <canvas id="alertTrendChart"></canvas>
+                                </div>
+                                <p id="alertChartDataNote" style="font-size:0.68rem;color:var(--text-gray);margin:8px 0 0;text-align:center;min-height:18px;line-height:1.5;"></p>
+                            </div>
+
+                            <!-- DIVIDER EWS -->
+                            <div id="alertDivider1" style="height:1px;background:rgba(99,102,241,0.08);margin:0 28px;"></div>
+
+                            <!-- ── REKOMENDASI TINDAKAN ── -->
+                            <div id="alertRekomendasi" style="padding:24px 28px;">
+                                <p style="font-size:0.88rem;font-weight:700;color:var(--text-dark);margin-bottom:16px;"><i class="fas fa-compass" style="color:#6366f1;margin-right:6px;"></i>Saran &amp; Rekomendasi</p>
+                                <div id="alertActionList" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+                                <!-- Konsultasi Psikolog -->
+                                <div style="margin-top:20px;padding-top:18px;border-top:1.5px solid rgba(99,102,241,0.1);text-align:center;">
+                                    <p style="font-size:0.78rem;color:var(--text-gray);margin-bottom:14px;"><i class="fas fa-user-md" style="color:#7c3aed;margin-right:5px;"></i>Butuh bantuan lebih lanjut? Konsultasikan langsung ke psikolog profesional.</p>
+                                    <a href="https://www.halodoc.com/kesehatan-mental?srsltid=AfmBOor80vVBvrlL-Laed2XumgJdc7Z1o5AvYNcdvTzzba6uE_9Nhe2f" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;padding:13px 28px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.88rem;box-shadow:0 4px 18px rgba(124,58,237,0.28);transition:all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(124,58,237,0.45)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 18px rgba(124,58,237,0.28)'">
+                                        <i class="fas fa-user-md"></i> Konsultasi Psikolog
+                                        <span style="background:rgba(255,255,255,0.2);font-size:0.68rem;padding:2px 8px;border-radius:50px;font-weight:700;">Halodoc</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- DIVIDER TL -->
+                            <div id="alertDivider2" style="height:1px;background:rgba(99,102,241,0.08);margin:0 28px;"></div>
+
+                            <!-- ── REFRESH & TIMESTAMP ── -->
+                            <div style="padding:16px 28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                                <p id="alertTimestamp" style="font-size:0.72rem;color:var(--text-light);"></p>
+                                <button onclick="alertInit()" style="display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;border:1.5px solid rgba(99,102,241,0.3);background:white;font-family:'Poppins',sans-serif;font-size:0.76rem;font-weight:600;color:#6366f1;cursor:pointer;transition:all .25s;" onmouseover="this.style.background='rgba(99,102,241,0.06)'" onmouseout="this.style.background='white'">
+                                    <i class="fas fa-rotate-right"></i> Refresh Data
+                                </button>
+                            </div>
+
+                        </div><!-- /alertDashboard -->
+
+                    </div><!-- /alertApp -->
+                </div><!-- /fd-preview -->
+
+                <!-- ── DISCLAIMER ── -->
+                <div style="background:rgba(99,102,241,0.05);border:1.5px solid rgba(99,102,241,0.12);border-radius:14px;padding:16px 20px;margin-top:20px;display:flex;gap:12px;align-items:flex-start;">
+                    <i class="fas fa-circle-info" style="color:#6366f1;font-size:1rem;margin-top:2px;flex-shrink:0;"></i>
+                    <p style="font-size:0.76rem;color:var(--text-gray);line-height:1.7;"><strong style="color:var(--text-dark);">Penting:</strong> INZ Alert bukan diagnosis psikologis dan tidak menggantikan evaluasi profesional. Fitur ini hanya membantu kamu mengenali perubahan pola kondisi emosional secara mandiri. Jika kamu merasa membutuhkan bantuan lebih, segera hubungi konselor atau psikolog.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- INZ ALERT — JAVASCRIPT ENGINE                              -->
+        <!-- ============================================================ -->
+
+
+    </div>
+    <!-- /page-fitur-alert -->
+
+    <!-- PAGE: Ayat Refleksi & Dzikir -->
+    <div id="page-fitur-ruh-a" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-ruh');window._lastPage='hub-ruh';">
+                <i class="fas fa-arrow-left"></i> Ruh & Hope
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <span style="color:var(--text-light);cursor:pointer;" onclick="_showPage('hub-ruh');window._lastPage='hub-ruh';">Ruh & Hope</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#8b5cf6;">Ayat Refleksi & Dzikir</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-ruh-a">
+        <div class="feature-detail-inner">
+
+            <!-- Quran Verse Cards — horizontal scroll on mobile, grid on desktop -->
+            <div class="ruh-ayat-wrap" style="margin-bottom:32px;">
+                <div class="ruh-ayat-grid">
+                    <!-- Ar-Ra'd 28 -->
+                    <div class="ruh-ayat-card" style="background:linear-gradient(135deg,#0d9488,#06b6d4);">
+                        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
+                        <div style="position:absolute;right:20px;bottom:-30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+                        <div style="font-size:0.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:16px;">QS. Ar-Ra'd : 28</div>
+                        <div style="font-size:1.45rem;line-height:2;direction:rtl;text-align:right;color:rgba(255,255,255,.95);font-family:'Georgia',serif;margin-bottom:18px;">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+                        <div style="height:1px;background:rgba(255,255,255,.2);margin-bottom:16px;"></div>
+                        <div style="font-size:0.88rem;font-style:italic;color:rgba(255,255,255,.85);line-height:1.7;">"Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram."</div>
+                    </div>
+                    <!-- Az-Zumar 53 -->
+                    <div class="ruh-ayat-card" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6);">
+                        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
+                        <div style="position:absolute;right:20px;bottom:-30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+                        <div style="font-size:0.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:16px;">QS. Az-Zumar : 53</div>
+                        <div style="font-size:1.2rem;line-height:2;direction:rtl;text-align:right;color:rgba(255,255,255,.95);font-family:'Georgia',serif;margin-bottom:18px;">قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ</div>
+                        <div style="height:1px;background:rgba(255,255,255,.2);margin-bottom:16px;"></div>
+                        <div style="font-size:0.88rem;font-style:italic;color:rgba(255,255,255,.85);line-height:1.7;">"Janganlah kamu berputus asa dari rahmat Allah."</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dzikir Harian -->
+            <div class="fd-preview u-preview-wrap">
+                <div class="u-ff-pop" style="padding:28px;background:linear-gradient(135deg,#faf5ff,#ede9fe);">
+                    <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:16px;"><i class="fas fa-moon" style="margin-right:5px;color:#8b5cf6;"></i>Dzikir Harian</p>
+                    <div style="display:flex;flex-direction:column;gap:12px;" id="dzikirListA"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    </div>
+
+    <!-- PAGE: Afirmasi & Jurnal Syukur -->
+    <div id="page-fitur-ruh-b" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="_showPage('hub-ruh');window._lastPage='hub-ruh';">
+                <i class="fas fa-arrow-left"></i> Ruh & Hope
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);cursor:pointer;" onclick="navigateTo('beranda')">Beranda</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <span style="color:var(--text-light);cursor:pointer;" onclick="_showPage('hub-ruh');window._lastPage='hub-ruh';">Ruh & Hope</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:#7c3aed;">Afirmasi & Jurnal Syukur</strong>
+            </div>
+        </div>
+    <section class="feature-detail" id="fitur-ruh-b">
+        <div class="feature-detail-inner">
+
+            <!-- Afirmasi Islami -->
+            <div class="fd-preview u-preview-wrap" style="margin-bottom:24px;">
+                <div class="u-ff-pop" style="padding:28px;background:linear-gradient(135deg,#f0fdfa,#ccfbf1);">
+                    <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:16px;"><i class="fas fa-star" style="margin-right:5px;color:#0d9488;"></i>Afirmasi Islami</p>
+                    <div id="afirmasiCardB" style="background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:18px;padding:28px;text-align:center;color:#fff;margin-bottom:16px;">
+                        <div id="afirmasiTextB" style="font-size:1rem;font-weight:600;line-height:1.7;"></div>
+                    </div>
+                    <button onclick="nextAfirmasiB()" style="width:100%;background:linear-gradient(135deg,#0d9488,#06b6d4);color:#fff;border:none;padding:12px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;"><i class="fas fa-sync-alt" style="margin-right:5px;"></i>Afirmasi Berikutnya</button>
+                </div>
+            </div>
+
+            <!-- Jurnal Syukur -->
+            <div class="fd-preview u-preview-wrap">
+                <div class="u-ff-pop" style="padding:28px;background:linear-gradient(135deg,#f0fdfa,#ccfbf1);">
+                    <p style="font-size:0.82rem;font-weight:700;color:var(--text-dark);margin-bottom:6px;"><i class="fas fa-heart" style="margin-right:5px;color:#0d9488;"></i>Jurnal Syukur Hari Ini</p>
+                    <p style="font-size:0.75rem;color:var(--text-gray);margin-bottom:16px;">Tuliskan 3 hal yang kamu syukuri hari ini</p>
+                    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                        <input id="syukurB1" placeholder="1. Aku bersyukur karena..." style="width:100%;padding:12px 14px;border:1.5px solid rgba(13,148,136,0.25);border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.84rem;outline:none;background:white;" onfocus="this.style.borderColor='#0d9488'" onblur="this.style.borderColor='rgba(13,148,136,0.25)'">
+                        <input id="syukurB2" placeholder="2. Aku bersyukur karena..." style="width:100%;padding:12px 14px;border:1.5px solid rgba(13,148,136,0.25);border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.84rem;outline:none;background:white;" onfocus="this.style.borderColor='#0d9488'" onblur="this.style.borderColor='rgba(13,148,136,0.25)'">
+                        <input id="syukurB3" placeholder="3. Aku bersyukur karena..." style="width:100%;padding:12px 14px;border:1.5px solid rgba(13,148,136,0.25);border-radius:12px;font-family:'Poppins',sans-serif;font-size:0.84rem;outline:none;background:white;" onfocus="this.style.borderColor='#0d9488'" onblur="this.style.borderColor='rgba(13,148,136,0.25)'">
+                    </div>
+                    <button onclick="simpanSyukurB()" style="background:linear-gradient(135deg,#0d9488,#06b6d4);color:#fff;border:none;padding:12px 28px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;"><i class="fas fa-heart" style="margin-right:5px;"></i>Simpan Syukur</button>
+                    <div id="syukurMsgB" style="font-size:0.78rem;color:#0d9488;margin-top:10px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    </div>
+
+    <!-- PAGE LAMA fitur-ruh (redirect ke hub-ruh untuk backward compat) -->
+    <div id="page-fitur-ruh" class="page">
+    </div>
+
+
+    <!-- SPLASH SCREEN JS -->
+
+
+    <div id="page-dashboard" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('beranda')">
+                <i class="fas fa-arrow-left"></i> Beranda
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:var(--primary);">Profil Ringkasan</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div style="padding:40px 30px 80px;max-width:1200px;margin:0 auto;">
+<section class="dashboard" id="dashboard" style="padding:0;">
+        <div class="dashboard-content">
+            <div class="section-header reveal">
+                <span class="section-badge">Preview Platform</span>
+                <h2>Profil Ringkasan</h2>
+                <p>Pantau perkembangan mood, aktivitas komunitas, dan progresmu dalam satu tampilan</p>
+            </div>
+            <div class="dashboard-mockup reveal">
+                <div class="dashboard-header">
+                    <h3><i class="fas fa-th-large" style="color: var(--primary); margin-right: 8px;"></i>Profil Ringkasan</h3>
+                    <div class="dashboard-tabs">
+                        <button class="dashboard-tab active" onclick="switchTab(this)">Mingguan</button>
+                        <button class="dashboard-tab" onclick="switchTab(this)">Bulanan</button>
+                        <button class="dashboard-tab" onclick="switchTab(this)">Semua</button>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <div>
+                        <div class="dashboard-chart">
+                            <h4><i class="fas fa-chart-line"></i> Mood Tracker - 7 Hari Terakhir</h4>
+                            <div class="chart-container">
+                                <canvas id="moodChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="dashboard-chart" style="margin-top: 20px;">
+                            <h4><i class="fas fa-users"></i> Aktivitas Komunitas</h4>
+                            <div class="community-activity">
+                                <div class="activity-item">
+                                    <div class="activity-avatar">RA</div>
+                                    <div class="activity-text"><strong>Rina A.</strong> menyelesaikan tantangan Digital Detox</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar">DF</div>
+                                    <div class="activity-text"><strong>Dimas F.</strong> berbagi pengalaman di forum</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar">SK</div>
+                                    <div class="activity-text"><strong>Sari K.</strong> mencapai streak 7 hari journaling</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar">BN</div>
+                                    <div class="activity-text"><strong>Budi N.</strong> bergabung ke komunitas baru</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-sidebar">
+                        <!-- ── STATISTIK REAL (diisi oleh refreshDashboard) ── -->
+                        <div class="sidebar-card" id="dash-stats-card">
+                            <h4><i class="fas fa-chart-simple" style="color:var(--primary);margin-right:6px;"></i> Statistik Kamu</h4>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
+                                <div style="background:rgba(13,148,136,0.07);border-radius:12px;padding:14px 12px;text-align:center;">
+                                    <div id="dash-stat-jurnal" style="font-size:1.6rem;font-weight:800;color:var(--primary);line-height:1;">—</div>
+                                    <div style="font-size:0.68rem;color:var(--text-gray);margin-top:4px;font-weight:500;">Jurnal Ditulis</div>
+                                </div>
+                                <div style="background:rgba(6,182,212,0.07);border-radius:12px;padding:14px 12px;text-align:center;">
+                                    <div id="dash-stat-mood" style="font-size:1.6rem;font-weight:800;color:#06b6d4;line-height:1;">—</div>
+                                    <div style="font-size:0.68rem;color:var(--text-gray);margin-top:4px;font-weight:500;">Mood Check-in</div>
+                                </div>
+                            </div>
+                            <div style="background:rgba(139,92,246,0.07);border-radius:12px;padding:12px 14px;margin-top:12px;display:flex;align-items:center;gap:10px;">
+                                <i class="fas fa-brain" style="color:#8b5cf6;font-size:1rem;flex-shrink:0;"></i>
+                                <div>
+                                    <div style="font-size:0.65rem;color:var(--text-gray);font-weight:500;">Skrining Terakhir</div>
+                                    <div id="dash-stat-skrining" style="font-size:0.82rem;font-weight:700;color:#8b5cf6;margin-top:2px;">—</div>
+                                </div>
+                            </div>
+                            <p style="font-size:0.65rem;color:var(--text-light);text-align:center;margin-top:10px;">
+                                <i class="fas fa-lock" style="margin-right:3px;"></i>Login untuk melihat data real
+                            </p>
+                        </div>
+                        <div class="sidebar-card">
+                            <h4><i class="fas fa-fire"></i> Challenge Mingguan</h4>
+                            <ul class="challenge-list">
+                                <li><i class="fas fa-circle-check"></i> Digital Detox 2 Jam</li>
+                                <li><i class="fas fa-circle-check"></i> Journaling Pagi</li>
+                                <li><i class="fas fa-circle"></i> Meditasi 10 Menit</li>
+                                <li><i class="fas fa-circle"></i> Apresiasi 3 Teman</li>
+                                <li><i class="fas fa-circle"></i> Olahraga 30 Menit</li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-card">
+                            <h4><i class="fas fa-rocket"></i> Progress Kamu</h4>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Resiliensi</span>
+                                    <span>78%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="78"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Keterlibatan</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="65"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Mood Positif</span>
+                                    <span>82%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="82"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Aktivitas Sosial</span>
+                                    <span>71%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="71"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        </div>
+    </div>
+
+    <!-- PAGE: FITUR (Semua fitur showcase) -->
+    <div id="page-fitur" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('beranda')">
+                <i class="fas fa-arrow-left"></i> Beranda
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:var(--primary);">Fitur</strong>
+            </div>
+            <!-- Quick nav ke sub-fitur -->
+        </div>
+
+        <div style="padding:40px 30px 80px;max-width:1200px;margin:0 auto;">
+            <div class="section-header" style="text-align:center;margin-bottom:48px;">
+                <span class="section-badge">Fitur Utama</span>
+                <h2>Lima Pilar AL-INZAR</h2>
+                <p>Kenali → Pantau → Deteksi → Pahami & Kelola → Kuatkan → Dapatkan Dukungan</p>
+            </div>
+
+            <!-- FITUR SHOWCASE: besar kiri + mini kanan -->
+            <div id="hifz-showcase-page">
+
+                <!-- ROW 1: Check (besar kiri) + Alert (mini kanan) -->
+                <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;margin-bottom:20px;align-items:stretch;" class="hfrow-page">
+                    <!-- MAIN CARD: INZ Check -->
+                    <div onclick="navigateTo('fitur-b')" style="background:#fff;border-radius:24px;padding:44px 44px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s;box-shadow:0 2px 12px rgba(0,0,0,.05);" onmouseover="this.style.boxShadow='0 16px 48px rgba(13,148,136,.18)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.transform=''">
+                        <div class="u-ghost-num-lg">01</div>
+                        <div style="width:68px;height:68px;background:#0d9488;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(13,148,136,.30);"><i class="fas fa-clipboard-check" style="color:#fff;font-size:1.6rem;"></i></div>
+                        <span style="font-size:0.67rem;font-weight:700;color:#0d9488;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:10px;position:relative;z-index:1;">SKRINING & JURNAL</span>
+                        <h2 style="font-size:1.9rem;font-weight:800;color:#1a1a2e;margin-bottom:14px;position:relative;z-index:1;">INZ Check & Journal</h2>
+                        <p class="hfcard-desc" style="color:#64748b;font-size:0.95rem;line-height:1.7;margin-bottom:22px;max-width:480px;position:relative;z-index:1;">Periksa kondisi psikologismu secara berkala, mulai dari <em>mood</em> dan kecemasan hingga kualitas tidur dan energi. Catat refleksi harianmu di INZ Journal.</p>
+                        <ul class="hfcard-bullets" style="list-style:none;padding:0;margin-bottom:30px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;">
+                            <li style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:#374151;"><span class="u-check-dot"><i class="fas fa-check" style="color:#fff;font-size:0.6rem;"></i></span>Skrining stres, kecemasan, depresi & risiko self-harm</li>
+                            <li style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:#374151;"><span class="u-check-dot"><i class="fas fa-check" style="color:#fff;font-size:0.6rem;"></i></span>Hasil: Relatif Baik / Perlu Perhatian / Perlu Dukungan / Perlu Bantuan Segera</li>
+                            <li style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:#374151;"><span class="u-check-dot"><i class="fas fa-check" style="color:#fff;font-size:0.6rem;"></i></span>Riwayat jurnal untuk melihat perubahan dari waktu ke waktu</li>
+                        </ul>
+                        <button onclick="event.stopPropagation();navigateTo('fitur-b')" style="background:#0d9488;color:#fff;border:none;padding:14px 30px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;position:relative;z-index:1;box-shadow:0 4px 14px rgba(13,148,136,.30);">Buka Fitur <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <!-- MINI CARD: INZ Alert -->
+                    <div onclick="navigateTo('fitur-alert')" style="background:#fff;border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s;box-shadow:0 2px 12px rgba(0,0,0,.05);" onmouseover="this.style.boxShadow='0 16px 48px rgba(239,68,68,.15)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.transform=''">
+                        <div class="u-ghost-num">02</div>
+                        <div style="width:68px;height:68px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(239,68,68,.30);"><i class="fas fa-bell" style="color:#fff;font-size:1.6rem;"></i></div>
+                        <span style="font-size:0.67rem;font-weight:700;color:#ef4444;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1;">EARLY WARNING</span>
+                        <h3 class="u-mini-title">INZ Alert</h3>
+                        <p class="u-mini-desc hfcard-desc">Early Warning System — deteksi pola perubahan kondisi psikologis dan beri peringatan lebih awal sebelum memburuk.</p>
+                        <div style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;color:#ef4444;font-size:0.8rem;font-weight:600;"><i class="fas fa-arrow-right"></i> Buka Fitur</div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: Edu + Ruh + Support -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;" class="hfrow-page">
+                    <div onclick="navigateTo('fitur-d')" style="background:#fff;border-radius:24px;padding:36px 32px 32px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s;min-height:280px;" onmouseover="this.style.boxShadow='0 16px 48px rgba(245,158,11,.15)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.transform=''">
+                        <div class="u-ghost-num">03</div>
+                        <div style="width:68px;height:68px;background:#f59e0b;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(245,158,11,.30);"><i class="fas fa-graduation-cap" style="color:#fff;font-size:1.6rem;"></i></div>
+                        <span style="font-size:0.67rem;font-weight:700;color:#f59e0b;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1;">EDUKASI</span>
+                        <h3 class="u-mini-title">INZ Edu & Coping</h3>
+                        <p class="u-mini-desc hfcard-desc">Konten singkat mengenai pengelolaan emosi dan pola hidup digital sehat yang dikurasi oleh para ahli dan mudah dipahami remaja.</p>
+                        <div style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;color:#f59e0b;font-size:0.8rem;font-weight:600;"><i class="fas fa-arrow-right"></i> Buka Fitur</div>
+                    </div>
+                    <div onclick="navigateTo('fitur-ruh')" style="background:#fff;border-radius:24px;padding:36px 32px 32px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s;min-height:280px;" onmouseover="this.style.boxShadow='0 16px 48px rgba(139,92,246,.15)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.transform=''">
+                        <div class="u-ghost-num">04</div>
+                        <div style="width:68px;height:68px;background:#8b5cf6;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(139,92,246,.30);"><i class="fas fa-book-open-reader" style="color:#fff;font-size:1.6rem;"></i></div>
+                        <span style="font-size:0.67rem;font-weight:700;color:#8b5cf6;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1;">SPIRITUAL</span>
+                        <h3 class="u-mini-title">INZ Ruh & Hope</h3>
+                        <p class="u-mini-desc hfcard-desc">Ayat refleksi, dzikir, Islamic affirmation, jurnal syukur, cerita inspiratif, dan latihan membangun harapan.</p>
+                        <div style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;color:#8b5cf6;font-size:0.8rem;font-weight:600;"><i class="fas fa-arrow-right"></i> Buka Fitur</div>
+                    </div>
+                    <div onclick="navigateTo('fitur-a')" style="background:#fff;border-radius:24px;padding:36px 32px 32px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s;min-height:280px;" onmouseover="this.style.boxShadow='0 16px 48px rgba(236,72,153,.15)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.transform=''">
+                        <div class="u-ghost-num">05</div>
+                        <div style="width:68px;height:68px;background:#ec4899;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(236,72,153,.30);"><i class="fa-solid fa-people-group" style="color:#fff;font-size:1.5rem;"></i></div>
+                        <span style="font-size:0.67rem;font-weight:700;color:#ec4899;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1;">DUKUNGAN</span>
+                        <h3 class="u-mini-title">INZ Support & Safe</h3>
+                        <p class="u-mini-desc hfcard-desc">Dukungan sebaya, koneksi ke psikolog & konselor, dan jalur bantuan segera ketika kamu butuh lebih dari sekadar cerita.</p>
+                        <div style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;color:#ec4899;font-size:0.8rem;font-weight:600;"><i class="fas fa-arrow-right"></i> Buka Fitur</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: TENTANG (Tentang Kami + Visi digabung) -->
+    <div id="page-tentang" class="page">
+        <div class="page-back-bar">
+            <button class="page-back-btn" onclick="navigateTo('beranda')">
+                <i class="fas fa-arrow-left"></i> Beranda
+            </button>
+            <div class="page-breadcrumb">
+                <span style="color:var(--text-light);">AL-INZAR</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;color:var(--text-light);"></i>
+                <strong style="color:var(--primary);">Tentang</strong>
+            </div>
+            <div style="width:80px;"></div>
+        </div>
+        <div style="padding:40px 30px 80px;max-width:1200px;margin:0 auto;">
+
+            <!-- Tentang Kami -->
+            <section class="about" style="padding:0 0 60px;">
+                <div class="section-container">
+                    <div class="section-header reveal">
+                        <span class="section-badge">Tentang Kami</span>
+                        <h2>Apa Itu AL-INZAR?</h2>
+                        <p>Platform psikoedukasi digital yang dirancang untuk membantu remaja mengenali kondisi psikologisnya, mengelola emosi, dan mendapatkan dukungan yang tepat waktu.</p>
+                    </div>
+                    <div class="about-grid">
+                        <div class="about-image reveal">
+                            <div class="about-accent"></div>
+                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=450&fit=crop" alt="Remaja Kolaborasi">
+                        </div>
+                        <div class="about-content reveal">
+                            <h3>Kenali, Pantau, dan Jaga Kondisi Psikologismu</h3>
+                            <p>AL-INZAR merupakan platform psikoedukasi digital yang membantu remaja mengenali kondisi psikologis secara berkala, mendeteksi perubahan yang mengkhawatirkan, dan menemukan jalur dukungan yang tepat.</p>
+                            <p>Berlandaskan Q.S. Az-Zumar: 53 & Ar-Ra'd: 28, kami percaya bahwa menjaga diri sendiri adalah amanah — dan teknologi dapat menjadi jembatan menuju kesehatan mental yang lebih baik.</p>
+                            <div class="about-highlights">
+                                <div class="about-highlight-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>INZ Check — skrining kondisi psikologis berkala</span>
+                                </div>
+                                <div class="about-highlight-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>INZ Alert — early warning system berbasis pola data</span>
+                                </div>
+                                <div class="about-highlight-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>INZ Ruh & Hope — penguatan spiritual dan harapan</span>
+                                </div>
+                                <div class="about-highlight-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>INZ Support & Safe — dukungan sosial dan jalur bantuan profesional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visi (digabung ke halaman Tentang) -->
+            <section class="vision" style="padding:60px 0 0;">
+                <div class="section-container">
+                    <div class="section-header reveal">
+                        <span class="section-badge">Visi & Dampak</span>
+                        <h2>Menciptakan Ekosistem Digital Suportif</h2>
+                    </div>
+                    <div class="vision-grid">
+                        <div class="vision-content reveal">
+                            <h3>Membantu Remaja Berkembang Secara Holistik</h3>
+                            <p>AL-INZAR hadir sebagai media psikoedukasi digital yang mudah dipahami remaja — bukan sebagai pengganti profesional, melainkan sebagai pendamping perjalanan kesehatan mental.</p>
+                            <p>Kami percaya bahwa mengenali kondisi diri secara berkala adalah langkah pertama yang paling penting. Dengan data yang dikumpulkan sendiri, setiap remaja dapat memahami polanya dan mengambil tindakan lebih awal.</p>
+                            <p>Melalui pendekatan holistik — psikologis, spiritual, dan sosial — AL-INZAR membantu remaja tidak hanya bertahan, tetapi benar-benar tumbuh dan menemukan harapan.</p>
+                        </div>
+                        <div class="vision-cards reveal">
+                            <div class="vision-card" onclick="animateCard(this)">
+                                <i class="fas fa-heart-pulse"></i>
+                                <h4>Kenali</h4>
+                                <p>Sadari kondisi psikologis sebelum memburuk</p>
+                            </div>
+                            <div class="vision-card" onclick="animateCard(this)">
+                                <i class="fas fa-bell"></i>
+                                <h4>Deteksi</h4>
+                                <p>Early warning system berbasis perubahan pola data</p>
+                            </div>
+                            <div class="vision-card" onclick="animateCard(this)">
+                                <i class="fas fa-book-open-reader"></i>
+                                <h4>Kuatkan</h4>
+                                <p>Spiritual, harapan, dan edukasi sebagai fondasi</p>
+                            </div>
+                            <div class="vision-card" onclick="animateCard(this)">
+                                <i class="fas fa-hands-holding-heart"></i>
+                                <h4>Dukung</h4>
+                                <p>Jalur ke bantuan nyata ketika dibutuhkan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- COPING MODAL OVERLAY                                         -->
+    <!-- ============================================================ -->
+    <div id="copingModalOverlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;" onclick="closeCopingModal(event)">
+        <div id="copingModalBox" style="background:white;border-radius:24px;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.25);position:relative;animation:copingModalIn .35s cubic-bezier(.34,1.56,.64,1);">
+            <div id="copingModalContent"></div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
